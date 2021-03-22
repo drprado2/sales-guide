@@ -1,0 +1,68 @@
+template#template {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding-right: 24px;
+  min-height: 100vh;
+  grid-template-columns: max-content auto;
+  grid-template-rows: var(--header-height) 160px auto var(--footer-height);
+  grid-template-areas:
+    "drawer header"
+    "drawer breadcrumb"
+    "drawer content"
+    "drawer footer";
+
+  > .header-effect {
+    height: 350px;
+    z-index: -1;
+    top: 0;
+    width: 100%;
+    position: relative;
+
+    background: linear-gradient(-45deg, #2dce89, #2dcecc, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;    position: absolute;
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+  }
+
+  > main {
+    display: flex;
+  }
+}
+
+header {
+  grid-area: header;
+}
+
+nav#drawer {
+  grid-area: drawer;
+  margin-right: 24px;
+}
+
+#breadcrumb {
+  grid-area: breadcrumb;
+  display: flex;
+}
+
+main {
+  grid-area: content;
+}
+
+footer {
+  grid-area: footer;
+  border-top: 1px solid #999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

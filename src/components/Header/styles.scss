@@ -1,0 +1,42 @@
+#header {
+ height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  //border-bottom: 1px solid rgba(255,255,255,.5);
+
+  .notifications-area {
+    position: relative;
+
+    .p-badge-no-gutter {
+      right: -10px;
+      position: absolute;
+    }
+
+    > .p-button-rounded {
+      background-color: rgba(0,0,0,.2);
+
+      &:hover {
+        background-color: rgba(0,0,0,.4);
+      }
+    }
+  }
+
+  > .avatar-area {
+    font-weight: bold;
+    font-family: Roboto;
+    color: white;
+
+    .p-avatar {
+      margin-right: 5px;
+    }
+
+    > .name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 8em;
+      display: inline-block;
+    }
+  }
+}

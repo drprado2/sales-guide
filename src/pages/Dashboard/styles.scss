@@ -1,0 +1,61 @@
+#home-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .cards {
+    display: flex;
+    margin-bottom: 16px;
+    column-gap: 16px;
+    position: relative;
+
+    .p-card {
+      flex-grow: 1;
+    }
+
+    p-card-body, p-card-content {
+      width: 100%;
+    }
+  }
+
+  .dashs {
+    display: flex;
+    margin-bottom: 16px;
+    column-gap: 16px;
+    position: relative;
+    height: 400px;
+
+    > div {
+      width: 48%;
+      flex-grow: 1;
+    }
+
+    p-card-body, p-card-content {
+      width: 100%;
+    }
+  }
+
+  .activities-dash-area {
+    background: linear-gradient(to top, #141e30, #243b55);
+    margin-bottom: 16px;
+
+    .p-card-body, .p-card-content {
+      padding: 0;
+    }
+
+    .p-card-content {
+      height: 400px;
+      position: relative;
+
+      > h2 {
+        margin: 0;
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        color: white;
+        font-family: 'Circular-Loom';
+        top: 14px;
+      }
+    }
+  }
+}

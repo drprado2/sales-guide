@@ -1,0 +1,80 @@
+$sidebar-bg-color: linear-gradient(to top, #485563, #29323c) !default;
+//$sidebar-color: var(--surface-800) !default;
+$highlight-color: white !default;
+//$submenu-bg-color: var(--surface-200) !default;
+//$submenu-bg-color-collapsed: white !default;
+//$icon-bg-color: transparent !default;
+
+@import '~react-pro-sidebar/dist/scss/styles.scss';
+
+.drawer-menu {
+  .pro-menu {
+    padding: 0;
+  }
+
+  box-shadow: 0 0 2rem 0 rgba(136,152,170,.15)!important;
+
+  .logo-area {
+    height: var(--header-height);
+    background-image: url("https://seeklogo.com/images/A/asics-logo-F82655C5BA-seeklogo.com.png");
+    background-size: 40% 45%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .empty-logo-area {
+    height: var(--header-height);
+  }
+
+  .pro-menu-item {
+    transition: background-color .3s linear, border .1s linear;
+  }
+
+  .pro-menu-item:hover {
+    border-right: 3px solid white;
+    background-color: #475462;
+  }
+
+  .pro-menu-item.active {
+    background-color: #475462;
+    border-right: 3px solid white;
+  }
+
+  .pro-menu-item:hover {
+    //background-color: var(--surface-200);
+  }
+
+  .pro-menu-item {
+    border-bottom: 1px solid #999;
+  }
+
+  .pro-item-content {
+    font-weight: bold;
+    font-family: 'Circular-Loom';
+
+  }
+
+  .pro-icon {
+    font-size: 1.5em;
+  }
+
+  .svg-footer {
+    background-image: url("../../assets/images/footer-drawer-menu.svg");
+  }
+
+  .sidebar-btn-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 15px;
+    padding-top: 10px;
+    width: 250px;
+
+    span {
+      font-family: 'Roboto';
+      font-weight: bold;
+      font-size: 2em;
+      color: var(--surface-400)
+    }
+  }
+}

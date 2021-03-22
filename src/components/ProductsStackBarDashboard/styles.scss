@@ -1,0 +1,26 @@
+.products-stack-bar-dashboard.p-card {
+  background: linear-gradient(to bottom, #141E30, #243B55);
+  background: #fff;
+  height: 100%;
+
+  .p-card-body, .p-card-body {
+    padding: 0;
+    height: 100%;
+  }
+
+  .p-card-content {
+    position: relative;
+    height: 100%;
+    padding: 0;
+
+    > h2 {
+      margin: 0;
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      color: #222;
+      font-family: 'Circular-Loom';
+      top: 8px;
+    }
+  }
+}

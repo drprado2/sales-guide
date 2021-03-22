@@ -1,0 +1,33 @@
+.dashboard-card {
+  height: 200px;
+  display: flex;
+  align-items: center;
+
+  .card-content-wrapper {
+    display: flex;
+    flex-direction: row;
+
+    > .card-texts {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      color: white;
+      font-family: Roboto;
+      justify-content: center;
+
+      > .legend {
+
+      }
+
+      > .value {
+        font-weight: bold;
+        font-size: 2em;
+      }
+    }
+
+    > .card-img {
+      width: 40%;
+      height: auto;
+    }
+  }
+}
