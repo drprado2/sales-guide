@@ -40,4 +40,5 @@ export interface AuthState {
   readonly loginForm: LoginForm;
   readonly user: User;
   roles: string[];
+  authorizedRoutes: Route[];
 }

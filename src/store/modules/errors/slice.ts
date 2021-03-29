@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-import { ErrorType, ErrorsState } from './types';
+import { ErrorsState } from './types';
+import { ErrorType } from '../../types/Error';
 
 const initialState: ErrorsState = {
   errors: [],
@@ -23,6 +24,7 @@ const errorsSlice = createSlice({
       state.errors = [];
     },
     appendErrors(state, action: PayloadAction<ErrorType[]>) {
+      console.log('colocando os erros', action.payload);
       state.errors = action.payload;
     },
   },

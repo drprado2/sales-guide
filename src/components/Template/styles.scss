@@ -1,3 +1,15 @@
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+}
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background-color: darkgrey;
+}
+
 template#template {
   display: grid;
   width: 100%;
@@ -34,6 +46,32 @@ template#template {
         background-position: 0% 50%;
       }
     }
+
+    &.withot-page-img {
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: calc(100% - 80px);
+        background-image: url("https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+        background-repeat: no-repeat;
+        z-index: -1;
+        background-size: cover;
+        background-position: top;
+        opacity: .20;
+        transition: width .2s linear;
+      }
+
+      &.drawer-open {
+        &:after {
+          width: calc(100% - 270px);
+        }
+      }
+    }
+
+
   }
 
   > main {

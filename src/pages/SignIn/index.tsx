@@ -17,7 +17,7 @@ import {
 import {
   clearErrors,
 } from '../../store/modules/errors/slice';
-import { ErrorType } from '../../store/modules/errors/types';
+import { ErrorType } from '../../store/types/Error';
 
 const SignInPage: React.FC = () => {
   const { t } = useTranslation(['translation', 'loginPage']);

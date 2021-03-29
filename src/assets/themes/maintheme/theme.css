@@ -1690,7 +1690,7 @@
   border: 0 none;
 }
 .p-button.p-button-secondary:enabled:hover, .p-buttonset.p-button-secondary > .p-button:enabled:hover, .p-splitbutton.p-button-secondary > .p-button:enabled:hover {
-  background: rgba(255, 64, 129, 0.92);
+  background: rgba(204, 228, 255, 0.92);
   color: #ffffff;
   border-color: transparent;
 }
@@ -1698,7 +1698,7 @@
   box-shadow: none;
 }
 .p-button.p-button-secondary:enabled:active, .p-buttonset.p-button-secondary > .p-button:enabled:active, .p-splitbutton.p-button-secondary > .p-button:enabled:active {
-  background: rgba(255, 64, 129, 0.68);
+  background: rgba(204, 228, 255, 0.68);
   color: #ffffff;
   border-color: transparent;
 }
@@ -1708,12 +1708,12 @@
   border: 1px solid;
 }
 .p-button.p-button-secondary.p-button-outlined:enabled:hover, .p-buttonset.p-button-secondary > .p-button.p-button-outlined:enabled:hover, .p-splitbutton.p-button-secondary > .p-button.p-button-outlined:enabled:hover {
-  background: rgba(255, 64, 129, 0.04);
+  background: rgba(204, 228, 255, 0.04);
   color: var(--secondary-color);
   border: 1px solid;
 }
 .p-button.p-button-secondary.p-button-outlined:enabled:active, .p-buttonset.p-button-secondary > .p-button.p-button-outlined:enabled:active, .p-splitbutton.p-button-secondary > .p-button.p-button-outlined:enabled:active {
-  background: rgba(255, 64, 129, 0.16);
+  background: rgba(204, 228, 255, 0.16);
   color: var(--secondary-color);
   border: 1px solid;
 }
@@ -1723,12 +1723,12 @@
   border-color: transparent;
 }
 .p-button.p-button-secondary.p-button-text:enabled:hover, .p-buttonset.p-button-secondary > .p-button.p-button-text:enabled:hover, .p-splitbutton.p-button-secondary > .p-button.p-button-text:enabled:hover {
-  background: rgba(255, 64, 129, 0.04);
+  background: rgba(204, 228, 255, 0.04);
   border-color: transparent;
   color: var(--secondary-color);
 }
 .p-button.p-button-secondary.p-button-text:enabled:active, .p-buttonset.p-button-secondary > .p-button.p-button-text:enabled:active, .p-splitbutton.p-button-secondary > .p-button.p-button-text:enabled:active {
-  background: rgba(255, 64, 129, 0.16);
+  background: rgba(204, 228, 255, 0.16);
   border-color: transparent;
   color: var(--secondary-color);
 }
@@ -4802,7 +4802,7 @@
   background: var(--secondary-color);
 }
 .p-scrolltop.p-link:hover {
-  background: rgba(255, 64, 129, 0.92);
+  background: rgba(204, 228, 255, 0.92);
 }
 .p-scrolltop .p-scrolltop-icon {
   font-size: 1.5rem;
@@ -5121,19 +5121,19 @@
 }
 
 .p-button.p-button-secondary:enabled:focus, .p-buttonset.p-button-secondary > .p-button:enabled:focus, .p-splitbutton.p-button-secondary > .p-button:enabled:focus {
-  background: rgba(255, 64, 129, 0.76);
+  background: rgba(204, 228, 255, 0.76);
 }
 .p-button.p-button-secondary:enabled:active, .p-buttonset.p-button-secondary > .p-button:enabled:active, .p-splitbutton.p-button-secondary > .p-button:enabled:active {
-  background: rgba(255, 64, 129, 0.68);
+  background: rgba(204, 228, 255, 0.68);
 }
 .p-button.p-button-secondary.p-button-text:enabled:focus, .p-button.p-button-secondary.p-button-outlined:enabled:focus, .p-buttonset.p-button-secondary > .p-button.p-button-text:enabled:focus, .p-buttonset.p-button-secondary > .p-button.p-button-outlined:enabled:focus, .p-splitbutton.p-button-secondary > .p-button.p-button-text:enabled:focus, .p-splitbutton.p-button-secondary > .p-button.p-button-outlined:enabled:focus {
-  background: rgba(255, 64, 129, 0.12);
+  background: rgba(204, 228, 255, 0.12);
 }
 .p-button.p-button-secondary.p-button-text:enabled:active, .p-button.p-button-secondary.p-button-outlined:enabled:active, .p-buttonset.p-button-secondary > .p-button.p-button-text:enabled:active, .p-buttonset.p-button-secondary > .p-button.p-button-outlined:enabled:active, .p-splitbutton.p-button-secondary > .p-button.p-button-text:enabled:active, .p-splitbutton.p-button-secondary > .p-button.p-button-outlined:enabled:active {
-  background: rgba(255, 64, 129, 0.16);
+  background: rgba(204, 228, 255, 0.16);
 }
 .p-button.p-button-secondary.p-button-text .p-ink, .p-button.p-button-secondary.p-button-outlined .p-ink, .p-buttonset.p-button-secondary > .p-button.p-button-text .p-ink, .p-buttonset.p-button-secondary > .p-button.p-button-outlined .p-ink, .p-splitbutton.p-button-secondary > .p-button.p-button-text .p-ink, .p-splitbutton.p-button-secondary > .p-button.p-button-outlined .p-ink {
-  background-color: rgba(255, 64, 129, 0.16);
+  background-color: rgba(204, 228, 255, 0.16);
 }
 
 .p-button.p-button-info:enabled:focus, .p-buttonset.p-button-info > .p-button:enabled:focus, .p-splitbutton.p-button-info > .p-button:enabled:focus {
@@ -5637,7 +5637,7 @@
   color: #ffffff;
 }
 .p-galleria.p-galleria-indicator-onitem .p-galleria-indicators .p-galleria-indicator.p-highlight button {
-  background: rgba(255, 64, 129, 0.68);
+  background: rgba(204, 228, 255, 0.68);
   color: #ffffff;
 }
 
@@ -6008,7 +6008,7 @@
   transform: scale(0.7);
 }
 .p-slider .p-slider-handle:focus {
-  box-shadow: 0 0 1px 10px rgba(255, 64, 129, 0.2);
+  box-shadow: 0 0 1px 10px rgba(204, 228, 255, 0.2);
 }
 .p-slider.p-slider-sliding .p-slider-handle {
   transform: scale(1);

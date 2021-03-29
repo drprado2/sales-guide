@@ -1,0 +1,26 @@
+#view-user-profile-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .label {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+
+  .image-area {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+
+    > .p-button {
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}

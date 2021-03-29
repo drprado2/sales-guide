@@ -8,13 +8,12 @@ import {
 } from 'react-pro-sidebar';
 // @ts-ignore
 import Burger from 'react-css-burger';
-import { authorizedRoutes } from '../../store/modules/auth/slice';
 import { StoreState } from '../../store';
 
 const DrawerMenu = () => {
   const { t } = useTranslation(['translation']);
 
-  const { roles } = useSelector((state: StoreState) => state.auth);
+  const { roles, authorizedRoutes } = useSelector((state: StoreState) => state.auth);
   const dispatch = useDispatch();
   const { drawerOpen } = useSelector((state: StoreState) => state.template);
   const history = useHistory();
@@ -23,7 +22,7 @@ const DrawerMenu = () => {
     (state: StoreState) => state.template,
   );
 
-  console.log(routeId);
+  console.log('no DRAWERR', authorizedRoutes);
 
   return (
     <ProSidebar
@@ -38,8 +37,8 @@ const DrawerMenu = () => {
       </SidebarHeader>
       <SidebarContent>
         <Menu iconShape="circle">
-          {authorizedRoutes(roles).filter((r) => r.showOnMenu).map((r) => (
-            <MenuItem active={r.id === routeId} icon={r.icon}>
+          {authorizedRoutes.filter((r) => r.showOnMenu).map((r) => (
+            <MenuItem key={r.id} active={r.id === routeId} icon={r.icon}>
               {t`${r.title}`}
               <Link to={r.path} />
             </MenuItem>

@@ -23,7 +23,7 @@ const templateSlice = createSlice({
       state.pageImage = action.payload.pageImage;
     },
     pushBreadcrumb(state, action: PayloadAction<BreadcrumbRoute>) {
-      state.breadcrumbRoutes.push(action.payload);
+      if (state.breadcrumbRoutes.length === 0 || state.breadcrumbRoutes[state.breadcrumbRoutes.length - 1].routeId !== action.payload.routeId) state.breadcrumbRoutes.push(action.payload);
     },
     resetBreadcrumbTo(state, action: PayloadAction<BreadcrumbRoute>) {
       state.breadcrumbRoutes = [action.payload];

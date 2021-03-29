@@ -1,12 +1,13 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, {
+  PropsWithChildren, useEffect, useRef, useState,
+} from 'react';
 import './styles.scss';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { FaBeer } from 'react-icons/fa';
-import { Divider } from 'primereact/divider';
+import { useDispatch, useSelector } from 'react-redux';
+import { ScrollTop } from 'primereact/scrolltop';
+import { Toast } from 'primereact/toast';
 import { StoreState } from '../../store';
-import { allRoutes } from '../../store/modules/auth/slice';
-import { Route } from '../../store/modules/auth/types';
+import { ErrorType } from '../../store/types/Error';
+import { clearErrors } from '../../store/modules/errors/slice';
 
 interface Props {
   header?: JSX.Element,
@@ -17,25 +18,36 @@ interface Props {
 }
 
 const Template: React.FC<Props> = (props: PropsWithChildren<Props>) => {
-  const { roles } = useSelector((state: StoreState) => state.auth);
-  const { icon, title } = useSelector((state: StoreState) => state.template);
-  const [currentIcon, setCurrentIcon] = useState<JSX.Element|null>(null);
+  const dispatch = useDispatch();
+  const {
+    icon, pageImage, drawerOpen,
+  } = useSelector((state: StoreState) => state.template);
+  const errorToast = useRef<Toast>(null);
 
-  const location = useLocation();
+  const { errors } = useSelector(
+    (state: StoreState) => state.errors,
+  );
 
   const {
     header, drawer, breadcrumb, content, footer,
   } = props;
 
+  let headerEffectClass = pageImage ? 'header-effect' : 'header-effect withot-page-img';
+  headerEffectClass = drawerOpen ? `${headerEffectClass} drawer-open` : headerEffectClass;
+
   useEffect(() => {
-    if (icon?.type) {
-      setCurrentIcon(icon);
+    if (errors?.length > 0) {
+      errorToast?.current?.show({
+        severity: 'error', summary: 'Erro ao salvar!', detail: errors.map((e) => e.message).join(', '), life: 3000,
+      });
+      dispatch(clearErrors());
     }
-  }, [icon]);
+  }, [errors]);
 
   return (
     <template id="template">
-      <div className="header-effect" />
+      <Toast ref={errorToast} />
+      <div className={headerEffectClass} />
       {drawer
         ? (<nav id="drawer">{drawer}</nav>) : null}
       {header
@@ -50,6 +62,7 @@ const Template: React.FC<Props> = (props: PropsWithChildren<Props>) => {
         ? (<main>{content}</main>) : null}
       {footer
         ? (<footer>{footer}</footer>) : null}
+      <ScrollTop threshold={200} />
     </template>
   );
 };

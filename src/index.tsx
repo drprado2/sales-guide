@@ -8,10 +8,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store, StoreState } from './store';
 
-import './assets/themes/maintheme/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
-
 import './i18n';
 
 PrimeReact.ripple = true;

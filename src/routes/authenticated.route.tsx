@@ -14,6 +14,8 @@ export interface HomeParams {
 export default function AuthenticatedRoutes() {
   const { roles } = useSelector((state: StoreState) => state.auth);
 
+  console.log('NO ROUTESSS', authorizedRoutes(roles));
+
   return (
     <Switch>
       {authorizedRoutes(roles).map((route) => (

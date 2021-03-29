@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   FcBusinessman, FcDepartment, FcPieChart, FcSmartphoneTablet,
 } from 'react-icons/all';
+import { generatePath } from 'react-router';
 import {
   AuthState, LoginForm, Role, Route, User,
 } from './types';
@@ -11,10 +12,16 @@ import dashboardImg from '../../../assets/images/dashboard-svg-back.svg';
 import companyImg from '../../../assets/images/company-page-img.svg';
 import sellersImg from '../../../assets/images/sellers-page-img.svg';
 import productsImg from '../../../assets/images/products-page-img.svg';
-import CompanyPage from '../../../pages/Company';
+import ViewCompanyPage from '../../../pages/ViewCompany';
 import SellersPage from '../../../pages/Sellers';
 import ProductsPage from '../../../pages/Products';
-import UserProfilePage from '../../../pages/UserProfile';
+import EditUserProfilePage from '../../../pages/EditUserProfile';
+import ViewUserProfilePage from '../../../pages/ViewUserProfile';
+import EditCompanyPage from '../../../pages/EditCompany';
+
+const authTokenKey = 'auth:token';
+const authRolesKey = 'auth:roles';
+const authUserKey = 'auth:user';
 
 export const allRoutes: Route[] = [
   {
@@ -30,16 +37,28 @@ export const allRoutes: Route[] = [
     showOnMenu: true,
   },
   {
-    id: 'company',
-    component: CompanyPage,
+    id: 'view-company',
+    component: ViewCompanyPage,
     exact: true,
-    path: '/company',
+    path: '/company/:id',
     isDefaultForCurrentUser: (roles) => false,
     roles: ['VIEWER'],
     title: 'Empresa',
     icon: <FcDepartment />,
     pageImage: companyImg,
     showOnMenu: true,
+  },
+  {
+    id: 'edit-company',
+    component: EditCompanyPage,
+    exact: true,
+    path: '/company/:id/edit',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Editar Empresa',
+    icon: <FcDepartment />,
+    pageImage: companyImg,
+    showOnMenu: false,
   },
   {
     id: 'sellers',
@@ -66,10 +85,22 @@ export const allRoutes: Route[] = [
     showOnMenu: true,
   },
   {
-    id: 'user-profile',
-    component: UserProfilePage,
+    id: 'edit-user-profile',
+    component: EditUserProfilePage,
     exact: true,
-    path: '/user_profile',
+    path: '/user_profile/:id/edit',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Editar Meu Perfil',
+    icon: <FcSmartphoneTablet />,
+    pageImage: undefined,
+    showOnMenu: false,
+  },
+  {
+    id: 'view-user-profile',
+    component: ViewUserProfilePage,
+    exact: true,
+    path: '/user_profile/:id',
     isDefaultForCurrentUser: (roles) => false,
     roles: ['VIEWER'],
     title: 'Meu Perfil',
@@ -79,15 +110,22 @@ export const allRoutes: Route[] = [
   },
 ];
 
-const authTokenKey = 'auth:token';
-const authRolesKey = 'auth:roles';
-const authUserKey = 'auth:user';
-
 export const authorizedRoutes = (roles: Role[]) => allRoutes.filter((route) =>
   roles.some((userRole: string) => route.roles.indexOf(userRole) > -1));
 
 const initialState: AuthState = {
   loadingSignInRequest: false,
+  authorizedRoutes: allRoutes.filter((route) => {
+    const roles = JSON.parse(localStorage.getItem(authRolesKey) ?? '[]');
+    return roles.some((userRole: string) => route.roles.indexOf(userRole) > -1);
+  }).map((r) => {
+    const user = JSON.parse(localStorage.getItem(authUserKey) || '{}') as User;
+    const route = { ...r };
+    if (route.id === 'view-company' || route.id === 'edit-company') {
+      route.path = generatePath(route.path, { id: user.companyId });
+    }
+    return route;
+  }),
   isSignedIn: () => !!localStorage.getItem(authTokenKey),
   error: false,
   token: localStorage.getItem(authTokenKey),
@@ -129,6 +167,14 @@ const authSlice = createSlice({
         sessionStorage.setItem(authUserKey, JSON.stringify(user));
         sessionStorage.setItem(authRolesKey, JSON.stringify(roles));
       }
+      state.authorizedRoutes = allRoutes.filter((route) =>
+        roles.some((userRole: string) => route.roles.indexOf(userRole) > -1)).map((r) => {
+        const newRoute = { ...r };
+        if (newRoute.id === 'view-company' || newRoute.id === 'edit-company') {
+          newRoute.path = generatePath(r.path, { id: user.companyId });
+        }
+        return newRoute;
+      });
 
       state.loginForm = {
         email: '',

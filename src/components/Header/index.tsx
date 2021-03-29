@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // @ts-ignore
 import Burger from 'react-css-burger';
 import { Link, useHistory } from 'react-router-dom';
+import { generatePath } from 'react-router';
 import { allRoutes, signOutRequest } from '../../store/modules/auth/slice';
 import { StoreState } from '../../store';
 import { toggleDrawer } from '../../store/modules/template/slice';
@@ -89,6 +90,7 @@ const Header: React.FC = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { drawerOpen } = useSelector((state: StoreState) => state.template);
+  const { avatarImage, name, id } = useSelector((state: StoreState) => state.auth.user);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -99,7 +101,7 @@ const Header: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const userProfileRoute = allRoutes.find((r) => r.id === 'user-profile');
+  const userProfileRoute = allRoutes.find((r) => r.id === 'view-user-profile');
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -146,8 +148,8 @@ const Header: React.FC = () => {
         Notificações aqui
       </OverlayPanel>
       <Button className="p-button-text avatar-area" onClick={handleClick}>
-        <Avatar image="https://avatars.githubusercontent.com/u/15847053?s=460&v=4" className="p-mr-2" size="large" shape="circle" />
-        <span className="name">Adriano Prado de Oliveira</span>
+        <Avatar image={avatarImage} className="p-mr-2" size="large" shape="circle" />
+        <span className="name">{name}</span>
       </Button>
       <Menu
         id="simple-menu"
@@ -158,7 +160,7 @@ const Header: React.FC = () => {
       >
         <MenuItem onClick={() => {
           handleClose();
-          history.push(userProfileRoute?.path ?? '/');
+          history.push(generatePath(userProfileRoute?.path ?? '', { id }));
         }}
         >
           Perfil

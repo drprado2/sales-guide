@@ -44,7 +44,7 @@ const Breadcrumb: React.FC = () => {
       <div className="title">{title}</div>
       <Breadcrumbs aria-label="breadcrumb">
         {breadcrumbRoutes.map((r, i) => (
-          <Link color="inherit" onClick={(event: any) => handleClick(event, r.path)} className={classes.link}>
+          <Link key={r.path} color="inherit" onClick={(event: any) => handleClick(event, r.path)} className={classes.link}>
             {i === 0 && <HomeIcon className={classes.icon} />}
             {r.title}
           </Link>

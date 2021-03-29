@@ -1,0 +1,26 @@
+#view-company-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .label {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+
+  .label-color-value {
+    border-radius: 30px;
+    height: 50px;
+  }
+
+  .image-area {
+    position: relative;
+
+    > .p-button {
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}

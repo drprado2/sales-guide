@@ -1,0 +1,51 @@
+#edit-company-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .logo-wrapper {
+    position: relative;
+
+    .image-area {
+      width: 100%;
+    }
+
+    > .p-button {
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+
+  .btn-area {
+    .p-button {
+      margin: .5em;
+    }
+  }
+
+  .p-inputtext {
+    width: 100%;
+  }
+
+  .color-col {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    position: relative;
+    min-height: 70px;
+  }
+
+  .color-picker-result {
+    flex-grow: 1;
+    height: 100%;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+
+  .p-overlaypanel {
+    top: 35px !important;
+    left: 30% !important;
+  }
+}

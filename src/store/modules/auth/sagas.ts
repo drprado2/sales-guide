@@ -17,7 +17,6 @@ export function* signIn() {
   let response : AxiosResponse;
   try {
     const { email, password } = yield select((state) => state.auth.loginForm);
-    console.log('saca so', email, password);
     response = yield call(api.post, '/api/v1/signin', { email, password });
     const planToken = jwt<{userId: string, sub: string, name: string, iat: number}>(response.data.token);
     // @ts-ignore
