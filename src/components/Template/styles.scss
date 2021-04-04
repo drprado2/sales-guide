@@ -33,19 +33,7 @@ template#template {
     position: relative;
 
     background: linear-gradient(-45deg, #2dce89, #2dcecc, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradient 10s ease infinite;    position: absolute;
-    @keyframes gradient {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
+    position: absolute;
 
     &.withot-page-img {
       &:after {

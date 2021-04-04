@@ -1,0 +1,17 @@
+#view-zone-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .header-area {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    column-gap: 8px;
+  }
+
+  .label {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+}

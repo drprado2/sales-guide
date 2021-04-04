@@ -1,7 +1,7 @@
 import React from 'react';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  FcBusinessman, FcDepartment, FcPieChart, FcSmartphoneTablet,
+  FcBusinessman, FcDepartment, FcGlobe, FcPieChart, FcSmartphoneTablet,
 } from 'react-icons/all';
 import { generatePath } from 'react-router';
 import {
@@ -12,12 +12,17 @@ import dashboardImg from '../../../assets/images/dashboard-svg-back.svg';
 import companyImg from '../../../assets/images/company-page-img.svg';
 import sellersImg from '../../../assets/images/sellers-page-img.svg';
 import productsImg from '../../../assets/images/products-page-img.svg';
+import zonesImg from '../../../assets/images/zones-page.svg';
 import ViewCompanyPage from '../../../pages/ViewCompany';
 import SellersPage from '../../../pages/Sellers';
 import ProductsPage from '../../../pages/Products';
 import EditUserProfilePage from '../../../pages/EditUserProfile';
 import ViewUserProfilePage from '../../../pages/ViewUserProfile';
 import EditCompanyPage from '../../../pages/EditCompany';
+import ZonesPage from '../../../pages/Zone/List';
+import ViewZonePage from '../../../pages/Zone/View';
+import EditZonePage from '../../../pages/Zone/Edit';
+import CreateZonePage from '../../../pages/Zone/Create';
 
 const authTokenKey = 'auth:token';
 const authRolesKey = 'auth:roles';
@@ -58,6 +63,54 @@ export const allRoutes: Route[] = [
     title: 'Editar Empresa',
     icon: <FcDepartment />,
     pageImage: companyImg,
+    showOnMenu: false,
+  },
+  {
+    id: 'zone-list',
+    component: ZonesPage,
+    exact: true,
+    path: '/zones',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Regiões',
+    icon: <FcGlobe />,
+    pageImage: zonesImg,
+    showOnMenu: true,
+  },
+  {
+    id: 'view-zone',
+    component: ViewZonePage,
+    exact: true,
+    path: '/zones/:id/view',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Visualizar Região',
+    icon: <FcGlobe />,
+    pageImage: zonesImg,
+    showOnMenu: false,
+  },
+  {
+    id: 'edit-zone',
+    component: EditZonePage,
+    exact: true,
+    path: '/zones/:id/edit',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Editar Região',
+    icon: <FcGlobe />,
+    pageImage: zonesImg,
+    showOnMenu: false,
+  },
+  {
+    id: 'create-zone',
+    component: CreateZonePage,
+    exact: true,
+    path: '/zones/create',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Criar Região',
+    icon: <FcGlobe />,
+    pageImage: zonesImg,
     showOnMenu: false,
   },
   {

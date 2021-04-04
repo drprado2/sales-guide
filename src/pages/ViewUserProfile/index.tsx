@@ -33,7 +33,6 @@ const ViewUserProfilePage = () => {
   const editUserProfileRoute = allRoutes.find((r) => r.id === 'edit-user-profile');
 
   const onEditUser = () => {
-    console.log('VEJA O ID DA PAGINA DE VIEW', id, location);
     history.push(generatePath(editUserProfileRoute?.path ?? '/', { id }));
   };
 

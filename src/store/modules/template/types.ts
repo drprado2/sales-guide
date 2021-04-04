@@ -4,7 +4,7 @@ export interface TemplateState {
   icon: JSX.Element;
   pageImage: string | undefined;
   drawerOpen: boolean;
-  breadcrumbRoutes: BreadcrumbRoute[];
+  breadcrumbRoutes: Array<BreadcrumbRoute>;
 }
 
 export interface BreadcrumbRoute {

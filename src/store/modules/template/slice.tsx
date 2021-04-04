@@ -23,7 +23,18 @@ const templateSlice = createSlice({
       state.pageImage = action.payload.pageImage;
     },
     pushBreadcrumb(state, action: PayloadAction<BreadcrumbRoute>) {
-      if (state.breadcrumbRoutes.length === 0 || state.breadcrumbRoutes[state.breadcrumbRoutes.length - 1].routeId !== action.payload.routeId) state.breadcrumbRoutes.push(action.payload);
+      if (state.breadcrumbRoutes.length === 0 || state.breadcrumbRoutes.every((r) => r.path !== action.payload.path)) {
+        state.breadcrumbRoutes.push(action.payload);
+      } else {
+        let isLast = false;
+        while (!isLast) {
+          if (state.breadcrumbRoutes[state.breadcrumbRoutes.length - 1].path !== action.payload.path) {
+            state.breadcrumbRoutes = state.breadcrumbRoutes.slice(0, state.breadcrumbRoutes.length - 1);
+          } else {
+            isLast = true;
+          }
+        }
+      }
     },
     resetBreadcrumbTo(state, action: PayloadAction<BreadcrumbRoute>) {
       state.breadcrumbRoutes = [action.payload];
