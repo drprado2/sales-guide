@@ -1,0 +1,32 @@
+#view-seller-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .avatar-image {
+    vertical-align: middle;
+    border-radius: 12px;
+    max-height: 80px;
+    position: absolute;
+    left: 24px;
+    top: 12px;
+  }
+
+  .p-tabview-nav-link {
+    i {
+      margin-right: 5px;
+    }
+  }
+
+  .header-area {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    column-gap: 8px;
+  }
+
+  .label {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+}

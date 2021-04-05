@@ -180,18 +180,16 @@ const ZonesPage = () => {
             value={paginated.data}
             dataKey="id"
             rowHover
-            emptyMessage="No customers found"
+            emptyMessage="Não a regiões"
             sortMode="multiple"
             removableSort
-            scrollable
-            scrollHeight="70vh"
             exportFilename="regioes"
           >
             <Column field="name" header="Nome" sortable filter filterMatchMode="contains" filterPlaceholder="Pesquisar por nome" />
             <Column field="description" header="Descrição" sortable filter filterMatchMode="contains" filterPlaceholder="Pesquisar por descrição" />
             <Column field="createdAt" header="Data Criação" sortable filter filterMatchMode="contains" filterPlaceholder="Pesquisar por criação" />
             <Column field="updatedAt" header="Data Atualização" sortable filter filterMatchMode="contains" filterPlaceholder="Pesquisar por atualização" />
-            <Column body={actionBodyTemplate} headerStyle={{ width: '8em', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} />
+            <Column body={actionBodyTemplate} headerStyle={{ width: '4em', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} />
           </DataTable>
           <Paginator
             rows={paginateFilter.total}

@@ -52,3 +52,9 @@ body {
 .MuiFab-primary {
   background-color: var(--primary-color) !important;
 }
+
+.p-card {
+  .p-datatable-header {
+    padding-top: 0px !important;
+  }
+}

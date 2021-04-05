@@ -14,7 +14,6 @@ import sellersImg from '../../../assets/images/sellers-page-img.svg';
 import productsImg from '../../../assets/images/products-page-img.svg';
 import zonesImg from '../../../assets/images/zones-page.svg';
 import ViewCompanyPage from '../../../pages/ViewCompany';
-import SellersPage from '../../../pages/Sellers';
 import ProductsPage from '../../../pages/Products';
 import EditUserProfilePage from '../../../pages/EditUserProfile';
 import ViewUserProfilePage from '../../../pages/ViewUserProfile';
@@ -23,6 +22,10 @@ import ZonesPage from '../../../pages/Zone/List';
 import ViewZonePage from '../../../pages/Zone/View';
 import EditZonePage from '../../../pages/Zone/Edit';
 import CreateZonePage from '../../../pages/Zone/Create';
+import SellersPage from '../../../pages/Sellers/List';
+import ViewSellerPage from '../../../pages/Sellers/View';
+import EditSellerPage from '../../../pages/Sellers/Edit';
+import CreateSellerPage from '../../../pages/Sellers/Create';
 
 const authTokenKey = 'auth:token';
 const authRolesKey = 'auth:roles';
@@ -114,7 +117,7 @@ export const allRoutes: Route[] = [
     showOnMenu: false,
   },
   {
-    id: 'sellers',
+    id: 'seller-list',
     component: SellersPage,
     exact: true,
     path: '/sellers',
@@ -124,6 +127,42 @@ export const allRoutes: Route[] = [
     icon: <FcBusinessman />,
     pageImage: sellersImg,
     showOnMenu: true,
+  },
+  {
+    id: 'view-seller',
+    component: ViewSellerPage,
+    exact: true,
+    path: '/sellers/:id/view',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Visualizar Vendedor',
+    icon: <FcBusinessman />,
+    pageImage: sellersImg,
+    showOnMenu: false,
+  },
+  {
+    id: 'edit-seller',
+    component: EditSellerPage,
+    exact: true,
+    path: '/sellers/:id/edit',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Editar Vendedor',
+    icon: <FcBusinessman />,
+    pageImage: sellersImg,
+    showOnMenu: false,
+  },
+  {
+    id: 'create-seller',
+    component: CreateSellerPage,
+    exact: true,
+    path: '/sellers/create',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Criar Vendedor',
+    icon: <FcBusinessman />,
+    pageImage: sellersImg,
+    showOnMenu: false,
   },
   {
     id: 'products',

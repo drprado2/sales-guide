@@ -2,7 +2,7 @@ import React from 'react';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   Zone,
-  ZoneList,
+  ZoneList, ZoneOption,
   ZoneState,
 } from './types';
 import {
@@ -20,6 +20,8 @@ const initialState: ZoneState = {
   loadingGetById: false,
   loadingGetList: false,
   loadingSaveForm: false,
+  loadingOptions: false,
+  options: [],
   createForm: {
     name: { value: '', validations: [required], errors: [] },
     description: { value: '', validations: [required], errors: [] },
@@ -75,6 +77,20 @@ const slice = createSlice({
       state.loadingGetList = false;
       state.paginated = initialState.paginated;
     },
+    getOptions(state, action: PayloadAction) {
+      state.loadingOptions = true;
+    },
+    onGetOptionsSuccess(
+      state,
+      action: PayloadAction<Array<ZoneOption>>,
+    ) {
+      state.options = action.payload;
+      state.loadingOptions = false;
+    },
+    onGetOptionsFailure(state, action: PayloadAction) {
+      state.loadingOptions = false;
+      state.options = initialState.options;
+    },
     getById(state, action: PayloadAction<string>) {
       state.loadingGetById = true;
     },
@@ -126,12 +142,12 @@ const slice = createSlice({
       });
     },
     validateCreateForm(state) {
-      for (const updateFormKey in state.updateForm) {
-        state.updateForm[updateFormKey].errors = [];
-        state.updateForm[updateFormKey].validations.forEach((v) => {
-          const error = v(state.updateForm[updateFormKey].value);
+      for (const formKey in state.createForm) {
+        state.createForm[formKey].errors = [];
+        state.createForm[formKey].validations.forEach((v) => {
+          const error = v(state.createForm[formKey].value);
           if (error) {
-            state.updateForm[updateFormKey].errors.push(error);
+            state.createForm[formKey].errors.push(error);
           }
         });
       }
@@ -199,6 +215,9 @@ export const {
   setPaginateFilter,
   resetViewData,
   validateCreateForm,
+  getOptions,
+  onGetOptionsFailure,
+  onGetOptionsSuccess,
 } = slice.actions;
 
 export default slice.reducer;

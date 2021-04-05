@@ -57,8 +57,11 @@ const CreateZonePage = () => {
     }
   }, [currentRoute]);
 
-  useEffect(() => () => {
-    dispatch(resetCreateForm());
+  useEffect(() => {
+    dispatch(validateCreateForm());
+    return () => {
+      dispatch(resetCreateForm());
+    };
   }, []);
 
   const onSaveSuccess = () => {

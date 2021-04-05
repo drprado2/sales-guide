@@ -1,4 +1,5 @@
 import { isPast, isFuture } from 'date-fns';
+import { cpf, cnpj } from 'cpf-cnpj-validator';
 import { FormValue } from '../types/FormValue';
 
 export function isValid(object: {[index: string]:FormValue<any>}) : boolean {
@@ -90,14 +91,15 @@ export function maxLenght(len: number) : {(value: string): string | undefined} {
   };
 }
 
-export function validPhone(value: string) : string | undefined {
+export function validPhone(value: string | undefined) : string | undefined {
   const reg = /^\d+$/;
-  const clearValue = value?.replace('(', '').replace(')', '').replace(' ', '').replace('-', '')
-    .replace('_', '');
+  const clearValue = value?.replaceAll('(', '').replaceAll('+', '').replaceAll(')', '').replaceAll(' ', '')
+    .replaceAll('-', '')
+    .replaceAll('_', '');
   if (clearValue?.length === 0 ?? true) {
     return undefined;
   }
-  if (!reg.test(clearValue) || clearValue.length < 10) {
+  if (!reg.test(clearValue ?? '') || (clearValue?.length ?? 0) < 10) {
     return 'deve ser um telefone válido';
   }
   return undefined;
@@ -119,6 +121,56 @@ export function futureDate(value: Date | undefined) : string | undefined {
   }
   if (isPast(value)) {
     return 'deve ser uma data futura';
+  }
+  return undefined;
+}
+
+export function isCpf(value: string) : string | undefined {
+  if (value?.length === 0 ?? true) {
+    return undefined;
+  }
+  const clear = value.replaceAll('.', '').replaceAll('-', '').replaceAll('_', '');
+  if (!cpf.isValid(clear)) {
+    return 'deve ser um CPF válido';
+  }
+  return undefined;
+}
+
+export function isCnpj(value: string) : string | undefined {
+  if (value?.length === 0 ?? true) {
+    return undefined;
+  }
+  const clear = value.replaceAll('.', '').replaceAll('/', '').replaceAll('-', '').replaceAll('_', '');
+  if (!cnpj.isValid(clear)) {
+    return 'deve ser um CNPJ válido';
+  }
+  return undefined;
+}
+
+export function isCpfOrCnpj(value: string) : string | undefined {
+  const clear = value?.replaceAll('.', '')?.replaceAll('-', '').replaceAll('/', '').replaceAll('_', '');
+  if ((clear === undefined) || (clear?.length === 0 ?? true)) {
+    return undefined;
+  }
+  if (clear.length < 12) {
+    if (!cpf.isValid(clear)) {
+      return 'deve ser um documento válido';
+    }
+    return undefined;
+  }
+  if (!cnpj.isValid(clear)) {
+    return 'deve ser um documento válido';
+  }
+  return undefined;
+}
+
+export function isEmail(value: string) : string | undefined {
+  if (value?.length === 0 ?? true) {
+    return undefined;
+  }
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (!re.test(value)) {
+    return 'deve ser um e-mail válido';
   }
   return undefined;
 }

@@ -36,6 +36,11 @@ export interface ZoneList {
   updatedAt: string
 }
 
+export interface ZoneOption {
+  label: string,
+  value: string,
+}
+
 export interface ZoneFilter {
   name: string | undefined,
   description: string | undefined,
@@ -48,10 +53,12 @@ export interface ZoneState {
   readonly loadingGetList: boolean;
   readonly loadingGetById: boolean;
   readonly loadingDelete: boolean;
+  readonly loadingOptions: boolean;
   readonly viewData: Zone;
   readonly createForm: CreateZoneForm;
   readonly updateForm: UpdateZoneForm;
   readonly paginated: PaginatedResponse<ZoneList>;
+  readonly options: Array<ZoneOption>;
   readonly paginateFilter: PaginateFilter;
   readonly filter: ZoneFilter;
   readonly callBackCreate?: {(): void};

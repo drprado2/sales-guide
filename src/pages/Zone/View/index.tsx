@@ -39,10 +39,6 @@ const ViewZonePage = () => {
     }
   }, [id]);
 
-  useEffect(() => () => {
-    dispatch(resetViewData());
-  }, []);
-
   const currentRoute = allRoutes.find((r) => r.id === 'view-zone');
   const editRoute = allRoutes.find((r) => r.id === 'edit-zone');
   const listRoute = allRoutes.find((r) => r.id === 'zone-list');

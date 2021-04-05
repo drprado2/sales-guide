@@ -3,8 +3,9 @@ import auth from './auth/sagas';
 import userProfile from './user-profile/sagas';
 import company from './company/sagas';
 import zones from './zones/sagas';
+import sellers from './sellers/sagas';
 
 export default function* rootSaga() {
   // @ts-ignore
-  return yield all([auth, userProfile, company, zones]);
+  return yield all([auth, userProfile, company, zones, sellers]);
 }

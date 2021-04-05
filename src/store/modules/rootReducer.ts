@@ -5,6 +5,7 @@ import template from './template/slice';
 import userProfile from './user-profile/slice';
 import company from './company/slice';
 import zones from './zones/slice';
+import sellers from './sellers/slice';
 
 const rootReducer = combineReducers({
   auth,
@@ -13,5 +14,6 @@ const rootReducer = combineReducers({
   userProfile,
   company,
   zones,
+  sellers,
 });
 export default rootReducer;

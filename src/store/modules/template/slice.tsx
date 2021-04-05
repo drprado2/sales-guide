@@ -23,6 +23,7 @@ const templateSlice = createSlice({
       state.pageImage = action.payload.pageImage;
     },
     pushBreadcrumb(state, action: PayloadAction<BreadcrumbRoute>) {
+      console.log('veja o title do bread', action.payload);
       if (state.breadcrumbRoutes.length === 0 || state.breadcrumbRoutes.every((r) => r.path !== action.payload.path)) {
         state.breadcrumbRoutes.push(action.payload);
       } else {
@@ -34,6 +35,7 @@ const templateSlice = createSlice({
             isLast = true;
           }
         }
+        state.breadcrumbRoutes[state.breadcrumbRoutes.length - 1].title = action.payload.title;
       }
     },
     resetBreadcrumbTo(state, action: PayloadAction<BreadcrumbRoute>) {
