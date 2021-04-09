@@ -143,9 +143,19 @@ class TreinamentDone {
   + **updatedAt**: //Date//
 }
 
+class EmployeeType {
+  + **id**: //UUID//
+  + **companyId**: //UUID//
+  + **name**: //string//
+  + **description**: //string//
+  + **createdAt**: //Date//
+  + **updatedAt**: //Date//
+}
+
 class Seller {
   + **id**: //UUID//
   + **companyId**: //UUID//
+  + **employeeTypeId**: //UUID//
   + **provesSentIds**: //[]UUID//
   + **treinamentDoneIds**: //[]UUID//
   + **zoneId**: //UUID//
@@ -177,6 +187,7 @@ Treinament "1" *-- "0..*" Company
 OptionSelected "1" *-- "0..*" Company
 TreinamentDone "1" *-- "0..*" Company
 Seller "1" *-- "0..*" Zone
+Seller "1" *-- "0..*" EmployeeType
 Product "1" *-- "0..*" ProductCategory
 ProductContentBlock "1" *-- "0..*" Product
 Treinament "1" *-- "0..*" Product

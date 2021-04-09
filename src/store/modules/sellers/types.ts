@@ -11,6 +11,7 @@ export interface CreateSellerForm {
   birthDate: FormValue<Date | undefined>,
   enable: FormValue<boolean>,
   avatarImage: FormValue<string>,
+  isCpf: FormValue<boolean>,
   [index: string]: FormValue<any>,
 }
 
@@ -23,6 +24,7 @@ export interface UpdateSellerForm {
   birthDate: FormValue<Date | undefined>,
   enable: FormValue<boolean>,
   avatarImage: FormValue<string>,
+  isCpf: FormValue<boolean>,
   [index: string]: FormValue<any>,
 }
 

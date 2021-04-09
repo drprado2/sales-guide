@@ -9,7 +9,7 @@ import {
 import {
   containsCapitalLetters,
   containsLowerCaseLetters,
-  containsNumbers, isCpfOrCnpj, isEmail,
+  containsNumbers, isCnpj, isCpf, isCpfOrCnpj, isEmail,
   minLenght, pastDate,
   required, validPhone,
 } from '../../validations/validations';
@@ -30,6 +30,7 @@ const initialState: SellerState = {
     enable: { value: true, validations: [], errors: [] },
     phone: { value: '', validations: [validPhone], errors: [] },
     zoneId: { value: '', validations: [required], errors: [] },
+    isCpf: { value: true, validations: [], errors: [] },
   },
   updateForm: {
     id: { value: '', validations: [], errors: [] },
@@ -40,6 +41,7 @@ const initialState: SellerState = {
     enable: { value: true, validations: [], errors: [] },
     phone: { value: '', validations: [validPhone], errors: [] },
     zoneId: { value: '', validations: [required], errors: [] },
+    isCpf: { value: true, validations: [], errors: [] },
   },
   viewData: {
     companyId: '',
@@ -131,6 +133,11 @@ const slice = createSlice({
       const f = state.createForm[fieldName];
       f.value = value;
       f.errors = [];
+      if (fieldName === 'isCpf' && value === true) {
+        state.createForm.document.validations = [required, isCpf];
+      } else if (fieldName === 'isCpf' && value === false) {
+        state.createForm.document.validations = [required, isCnpj];
+      }
       f.validations.forEach((v) => {
         const error = v(value);
         if (error) {
@@ -143,6 +150,11 @@ const slice = createSlice({
       const f = state.updateForm[fieldName];
       f.value = value;
       f.errors = [];
+      if (fieldName === 'isCpf' && value === true) {
+        state.createForm.document.validations = [required, isCpf];
+      } else if (fieldName === 'isCpf' && value === false) {
+        state.createForm.document.validations = [required, isCnpj];
+      }
       f.validations.forEach((v) => {
         const error = v(value);
         if (error) {

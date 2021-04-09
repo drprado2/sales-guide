@@ -63,6 +63,7 @@
   },
   "globals": {
     "React": true,
+    "document": true,
     "google": true,
     "mount": true,
     "mountWithRouter": true,

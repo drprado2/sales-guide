@@ -68,7 +68,7 @@ export function* create() {
     yield call(api.post, `${baseUrl}`, req);
     yield put(actions.onCreateSuccess());
   } catch (err) {
-    console.error('Fail creating seller', err.response.data);
+    console.error('Fail creating seller', err);
     yield put(actions.onCreateFailure());
     const { errors } = err.response.data;
     yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));

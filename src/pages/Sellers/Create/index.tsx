@@ -30,6 +30,7 @@ import { StoreState } from '../../../store';
 import { isValid } from '../../../store/validations/validations';
 import { fileToBase64 } from '../../../utils/file-utils';
 import { setFormField } from '../../../store/modules/user-profile/slice';
+import CreateZoneModal from '../../Zone/components/CreateModal';
 
 const CreateSellerPage = () => {
   const toast = useRef<Toast>(null);
@@ -37,13 +38,13 @@ const CreateSellerPage = () => {
   const history = useHistory();
   const location = useLocation();
   const [isBlocking, setIsBlocking] = useState(false);
+  const [createZoneOpen, setCreateZoneOpen] = useState(false);
   const inputUploadRef = useRef<HTMLInputElement>(null);
   const {
     loadingSaveForm, createForm, loadingGetById,
   } = useSelector((state: StoreState) => state.sellers);
   const zoneOptions = useSelector((state: StoreState) => state.zones.options);
   const loadingZoneOptions = useSelector((state: StoreState) => state.zones.loadingOptions);
-  const [isCpf, setIsCpf] = useState(true);
 
   const onAvatarSelected = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -108,6 +109,14 @@ const CreateSellerPage = () => {
       </Helmet>
       <Zoom in>
         <div id="create-seller-page" className="p-grid p-align-center">
+          <CreateZoneModal
+            isOpen={createZoneOpen}
+            onSave={() => {
+              dispatch(getOptions());
+              setCreateZoneOpen(false);
+            }}
+            onCancel={() => setCreateZoneOpen(false)}
+          />
           <Toast ref={toast} />
           <Prompt
             when={isBlocking}
@@ -151,7 +160,7 @@ const CreateSellerPage = () => {
                     <div className="p-col-6 cpf-cnpj-wrapper">
                       <span className="p-float-label">
                         {
-                          isCpf
+                          createForm.isCpf.value
                             ? (
                               <InputMask
                                 autoClear={false}
@@ -163,7 +172,6 @@ const CreateSellerPage = () => {
                                   if (e.value === undefined) {
                                     return;
                                   }
-                                  console.log('atualizando input do cpf', e.value);
                                   setIsBlocking(true);
                                   dispatch(setCreateFormField({ fieldName: 'document', value: e.value }));
                                 }}
@@ -180,7 +188,6 @@ const CreateSellerPage = () => {
                                   if (e.value === undefined) {
                                     return;
                                   }
-                                  console.log('atualizando input do cnpj', e.value);
                                   setIsBlocking(true);
                                   dispatch(setCreateFormField({ fieldName: 'document', value: e.value }));
                                 }}
@@ -193,9 +200,9 @@ const CreateSellerPage = () => {
                       <div className="cpf-cnpj">
                         <span>CPF/CNPJ</span>
                         <InputSwitch
-                          checked={isCpf}
+                          checked={createForm.isCpf.value}
                           onChange={(e) => {
-                            setIsCpf(e.value);
+                            setCreateFormField({ fieldName: 'isCpf', value: e.value });
                             if (e.value && createForm?.document?.value?.length > 14) {
                               dispatch(setCreateFormField({ fieldName: 'document', value: createForm.document.value.substring(0, 14) }));
                             } else if (createForm?.document?.value?.length > 0) {
@@ -254,25 +261,28 @@ const CreateSellerPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="p-col-5 p-offset-2">
-                  <span className="p-float-label">
-                    <Dropdown
-                      disabled={loadingZoneOptions}
-                      id="zoneId"
-                      optionLabel="label"
-                      optionValue="value"
-                      value={createForm?.zoneId?.value}
-                      options={zoneOptions}
-                      onChange={(e) => {
-                        setIsBlocking(true);
-                        dispatch(setCreateFormField({ fieldName: 'zoneId', value: e.value }));
-                      }}
-                    />
+                <div className="p-col-5 p-offset-2" style={{ marginTop: '-12px' }}>
+                  <span className="p-float-label" style={{ width: '95%' }}>
+                    <div className="p-inputgroup">
+                      <Dropdown
+                        disabled={loadingZoneOptions}
+                        id="zoneId"
+                        optionLabel="label"
+                        optionValue="value"
+                        value={createForm?.zoneId?.value}
+                        options={zoneOptions}
+                        onChange={(e) => {
+                          setIsBlocking(true);
+                          dispatch(setCreateFormField({ fieldName: 'zoneId', value: e.value }));
+                        }}
+                      />
+                      <label style={{ marginLeft: 12 }} htmlFor="zoneId">Região</label>
+                      <Button type="button" icon="pi pi-plus" onClick={() => setCreateZoneOpen(true)} />
+                    </div>
                     <small id="zoneId-help" className="p-error p-d-block">{createForm.zoneId.errors.join(', ')}</small>
-                    <label htmlFor="zoneId">Região</label>
                   </span>
                 </div>
-                <div className="p-col-5">
+                <div className="p-col-5" style={{ marginTop: '-12px', marginLeft: '-16px' }}>
                   <span className="p-float-label">
                     <InputText
                       id="email"

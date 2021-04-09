@@ -30,6 +30,7 @@ import { StoreState } from '../../../store';
 import { isValid } from '../../../store/validations/validations';
 import { fileToBase64 } from '../../../utils/file-utils';
 import { setFormField } from '../../../store/modules/user-profile/slice';
+import CreateZoneModal from '../../Zone/components/CreateModal';
 
 const EditSellerPage = () => {
   const toast = useRef<Toast>(null);
@@ -37,13 +38,13 @@ const EditSellerPage = () => {
   const history = useHistory();
   const location = useLocation();
   const [isBlocking, setIsBlocking] = useState(false);
+  const [createZoneOpen, setCreateZoneOpen] = useState(false);
   const inputUploadRef = useRef<HTMLInputElement>(null);
   const {
     loadingSaveForm, updateForm, loadingGetById, viewData,
   } = useSelector((state: StoreState) => state.sellers);
   const zoneOptions = useSelector((state: StoreState) => state.zones.options);
   const loadingZoneOptions = useSelector((state: StoreState) => state.zones.loadingOptions);
-  const [isCpf, setIsCpf] = useState(updateForm?.document?.value?.length <= 14 ?? false);
 
   const onAvatarSelected = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -77,9 +78,9 @@ const EditSellerPage = () => {
 
   useEffect(() => {
     if (viewData?.document?.length <= 14) {
-      setIsCpf(true);
+      dispatch(setUpdateFormField({ fieldName: 'isCpf', value: true }));
     } else {
-      setIsCpf(false);
+      dispatch(setUpdateFormField({ fieldName: 'isCpf', value: false }));
     }
   }, [viewData]);
 
@@ -129,6 +130,14 @@ const EditSellerPage = () => {
       </Helmet>
       <Zoom in>
         <div id="edit-seller-page" className="p-grid p-align-center">
+          <CreateZoneModal
+            isOpen={createZoneOpen}
+            onSave={() => {
+              dispatch(getOptions());
+              setCreateZoneOpen(false);
+            }}
+            onCancel={() => setCreateZoneOpen(false)}
+          />
           <Toast ref={toast} />
           <Prompt
             when={isBlocking}
@@ -172,7 +181,7 @@ const EditSellerPage = () => {
                     <div className="p-col-6 cpf-cnpj-wrapper">
                       <span className="p-float-label">
                         {
-                          isCpf
+                          updateForm.isCpf.value
                             ? (
                               <InputMask
                                 autoClear={false}
@@ -201,7 +210,6 @@ const EditSellerPage = () => {
                                   if (e.value === undefined) {
                                     return;
                                   }
-                                  console.log('atualizando input do cnpj', e.value);
                                   setIsBlocking(true);
                                   dispatch(setUpdateFormField({ fieldName: 'document', value: e.value }));
                                 }}
@@ -214,9 +222,9 @@ const EditSellerPage = () => {
                       <div className="cpf-cnpj">
                         <span>CPF/CNPJ</span>
                         <InputSwitch
-                          checked={isCpf}
+                          checked={updateForm.isCpf.value}
                           onChange={(e) => {
-                            setIsCpf(e.value);
+                            dispatch(setUpdateFormField({ fieldName: 'isCpf', value: e.value }));
                             if (e.value && updateForm?.document?.value?.length > 14) {
                               dispatch(setUpdateFormField({ fieldName: 'document', value: updateForm.document.value.substring(0, 14) }));
                             } else if (updateForm?.document?.value?.length > 0) {
@@ -275,22 +283,25 @@ const EditSellerPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="p-col-5 p-offset-2">
-                  <span className="p-float-label">
-                    <Dropdown
-                      disabled={loadingZoneOptions}
-                      id="zoneId"
-                      optionLabel="label"
-                      optionValue="value"
-                      value={updateForm?.zoneId?.value}
-                      options={zoneOptions}
-                      onChange={(e) => {
-                        setIsBlocking(true);
-                        dispatch(setUpdateFormField({ fieldName: 'zoneId', value: e.value }));
-                      }}
-                    />
+                <div className="p-col-5 p-offset-2" style={{ marginTop: '-12px' }}>
+                  <span className="p-float-label" style={{ width: '95%' }}>
+                    <div className="p-inputgroup">
+                      <Dropdown
+                        disabled={loadingZoneOptions}
+                        id="zoneId"
+                        optionLabel="label"
+                        optionValue="value"
+                        value={updateForm?.zoneId?.value}
+                        options={zoneOptions}
+                        onChange={(e) => {
+                          setIsBlocking(true);
+                          dispatch(setUpdateFormField({ fieldName: 'zoneId', value: e.value }));
+                        }}
+                      />
+                      <label style={{ marginLeft: 12 }} htmlFor="zoneId">Região</label>
+                      <Button type="button" icon="pi pi-plus" onClick={() => setCreateZoneOpen(true)} />
+                    </div>
                     <small id="zoneId-help" className="p-error p-d-block">{updateForm.zoneId.errors.join(', ')}</small>
-                    <label htmlFor="zoneId">Região</label>
                   </span>
                 </div>
               </div>
