@@ -1,6 +1,7 @@
 import React from 'react';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+  FcBriefcase,
   FcBusinessman, FcDepartment, FcGlobe, FcPieChart, FcSmartphoneTablet,
 } from 'react-icons/all';
 import { generatePath } from 'react-router';
@@ -13,6 +14,7 @@ import companyImg from '../../../assets/images/company-page-img.svg';
 import sellersImg from '../../../assets/images/sellers-page-img.svg';
 import productsImg from '../../../assets/images/products-page-img.svg';
 import zonesImg from '../../../assets/images/zones-page.svg';
+import employeeTypeImg from '../../../assets/images/employee-type-page.svg';
 import ViewCompanyPage from '../../../pages/ViewCompany';
 import ProductsPage from '../../../pages/Products';
 import EditUserProfilePage from '../../../pages/EditUserProfile';
@@ -26,6 +28,10 @@ import SellersPage from '../../../pages/Sellers/List';
 import ViewSellerPage from '../../../pages/Sellers/View';
 import EditSellerPage from '../../../pages/Sellers/Edit';
 import CreateSellerPage from '../../../pages/Sellers/Create';
+import CreateEmployeeTypePage from '../../../pages/EmployeeType/Create';
+import EditEmployeeTypePage from '../../../pages/EmployeeType/Edit';
+import ViewEmployeeTypePage from '../../../pages/EmployeeType/View';
+import EmployeeTypesPage from '../../../pages/EmployeeType/List';
 
 const authTokenKey = 'auth:token';
 const authRolesKey = 'auth:roles';
@@ -114,6 +120,54 @@ export const allRoutes: Route[] = [
     title: 'Criar Região',
     icon: <FcGlobe />,
     pageImage: zonesImg,
+    showOnMenu: false,
+  },
+  {
+    id: 'employeeType-list',
+    component: EmployeeTypesPage,
+    exact: true,
+    path: '/employee_types',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Tipos de Contratação',
+    icon: <FcBriefcase />,
+    pageImage: employeeTypeImg,
+    showOnMenu: true,
+  },
+  {
+    id: 'view-employeeType',
+    component: ViewEmployeeTypePage,
+    exact: true,
+    path: '/employee_types/:id/view',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Visualizar Tipo de Contratação',
+    icon: <FcBriefcase />,
+    pageImage: employeeTypeImg,
+    showOnMenu: false,
+  },
+  {
+    id: 'edit-employeeType',
+    component: EditEmployeeTypePage,
+    exact: true,
+    path: '/employee_types/:id/edit',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Editar Tipo de Contratação',
+    icon: <FcBriefcase />,
+    pageImage: employeeTypeImg,
+    showOnMenu: false,
+  },
+  {
+    id: 'create-employeeType',
+    component: CreateEmployeeTypePage,
+    exact: true,
+    path: '/employee_types/create',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Criar Tipo de Contratação',
+    icon: <FcBriefcase />,
+    pageImage: employeeTypeImg,
     showOnMenu: false,
   },
   {

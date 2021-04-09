@@ -6,6 +6,7 @@ import userProfile from './user-profile/slice';
 import company from './company/slice';
 import zones from './zones/slice';
 import sellers from './sellers/slice';
+import employeeTypes from './employeeTypes/slice';
 
 const rootReducer = combineReducers({
   auth,
@@ -15,5 +16,6 @@ const rootReducer = combineReducers({
   company,
   zones,
   sellers,
+  employeeTypes,
 });
 export default rootReducer;

@@ -1,78 +1,90 @@
 import React, {
-  ChangeEvent, useEffect, useRef, useState,
+  ChangeEvent, FormEventHandler, useEffect, useRef, useState,
 } from 'react';
 import './styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import { Card } from 'primereact/card';
 import {
-  Prompt,
+  useHistory, useLocation, Prompt,
 } from 'react-router-dom';
+import { Skeleton } from 'primereact/skeleton';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import { Zoom } from '@material-ui/core';
+import { Helmet } from 'react-helmet';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { Dialog } from 'primereact/dialog';
+import { allRoutes } from '../../../store/modules/auth/slice';
+import { setCurrentPage, pushBreadcrumb } from '../../../store/modules/template/slice';
 import {
-  setCreateFormField, resetCreateForm, createRequest, validateCreateForm, getOptions,
-} from '../../../../store/modules/zones/slice';
-import { StoreState } from '../../../../store';
-import { isValid } from '../../../../store/validations/validations';
+  setCreateFormField, resetCreateForm, createRequest, validateCreateForm,
+} from '../../../store/modules/employeeTypes/slice';
+import { StoreState } from '../../../store';
+import { isValid } from '../../../store/validations/validations';
 
-interface Props {
-  isOpen: boolean;
-  onCancel: {(): void}
-  onSave: {(): void}
-}
-
-const CreateZoneModal : React.FC<Props> = ({ isOpen, onSave, onCancel }) => {
+const CreateEmployeeTypePage = () => {
   const toast = useRef<Toast>(null);
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
   const [isBlocking, setIsBlocking] = useState(false);
+
+  const currentRoute = allRoutes.find((r) => r.id === 'create-employeeType');
+  const listRoute = allRoutes.find((r) => r.id === 'employeeType-list');
 
   const {
     loadingSaveForm, createForm,
-  } = useSelector((state: StoreState) => state.zones);
+  } = useSelector((state: StoreState) => state.employeeTypes);
+
+  const goToList = () => {
+    history.push(listRoute?.path ?? '/');
+  };
+
+  useEffect(() => {
+    if (currentRoute) {
+      dispatch(setCurrentPage({
+        icon: currentRoute.icon,
+        routeId: currentRoute.id,
+        title: currentRoute.title,
+        pageImage: currentRoute.pageImage,
+      }));
+      dispatch(pushBreadcrumb({
+        path: location.pathname,
+        routeId: currentRoute.id,
+        title: currentRoute.title,
+      }));
+    }
+  }, [currentRoute]);
+
+  useEffect(() => {
+    dispatch(validateCreateForm());
+    return () => {
+      dispatch(resetCreateForm());
+    };
+  }, []);
 
   const onSaveSuccess = () => {
     toast.current?.show({
-      severity: 'success', summary: 'Salvo!', detail: 'Região salva com sucesso!', life: 1500,
+      severity: 'success', summary: 'Salvo!', detail: 'Tipo de contratação salvo com sucesso!', life: 1500,
     });
-    setTimeout(onSave, 1500);
+    setTimeout(goToList, 1500);
   };
 
   const onFormSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
-    saveForm();
-  };
-
-  const saveForm = () => {
     setIsBlocking(false);
     dispatch(createRequest(onSaveSuccess));
   };
 
-  const footer = (
-    <div>
-      <Button type="button" label="Cancelar" className="p-button-text" onClick={onCancel} />
-      <Button type="button" onClick={saveForm} label="Salvar" disabled={!isValid(createForm) || loadingSaveForm} icon={loadingSaveForm ? 'pi pi-spin pi-spinner' : ''} iconPos="right" />
-    </div>
-  );
-
   return (
     <>
-      <Dialog
-        header="Criar Região"
-        visible={isOpen}
-        style={{ width: '60vw' }}
-        breakpoints={{ '960px': '75vw', '640px': '100vw' }}
-        footer={footer}
-        onHide={() => {
-          onCancel();
-        }}
-        onShow={() => {
-          dispatch(resetCreateForm());
-          dispatch(validateCreateForm());
-        }}
-      >
-        <div id="edit-zone-page" className="p-grid p-align-center">
+      <Helmet>
+        <title>{currentRoute?.title ?? 'Criar Tipo de Contratação'}</title>
+        <meta name="description" content="Criar um tipo de contratação" />
+      </Helmet>
+      <Zoom in>
+        <div id="edit-employeeType-page" className="p-grid p-align-center">
           <Toast ref={toast} />
           <Prompt
             when={isBlocking}
@@ -80,7 +92,13 @@ const CreateZoneModal : React.FC<Props> = ({ isOpen, onSave, onCancel }) => {
               'Deseja realmente prosseguir? suas alterações serão perdidas.'
             }
           />
-          <div className="p-col-12" style={{ position: 'relative' }}>
+          <Card className="p-col-12 p-xl-10" style={{ position: 'relative' }}>
+            {loadingSaveForm && (
+              <>
+                <Skeleton className="p-skeleton-loader" />
+                <ProgressSpinner className="loader-app" />
+              </>
+            )}
             <form onSubmit={onFormSubmit}>
               <div className="p-grid">
                 <div className="p-col-6">
@@ -119,12 +137,16 @@ const CreateZoneModal : React.FC<Props> = ({ isOpen, onSave, onCancel }) => {
                   </span>
                 </div>
               </div>
+              <div className="p-grid btn-area" style={{ marginTop: '20px', justifyContent: 'flex-end' }}>
+                <Button type="button" label="Cancelar" className="p-button-text" onClick={goToList} />
+                <Button type="submit" label="Salvar" disabled={!isValid(createForm)} />
+              </div>
             </form>
-          </div>
+          </Card>
         </div>
-      </Dialog>
+      </Zoom>
     </>
   );
 };
 
-export default CreateZoneModal;
+export default CreateEmployeeTypePage;

@@ -1,0 +1,31 @@
+#employeeTypes-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+
+  .add-btn {
+    position: absolute;
+    z-index: 99;
+    transform: translateY(-50%);
+    left: 20px;
+  }
+
+  .p-paginator {
+    justify-content: flex-end;
+  }
+
+  .p-datatable-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .table-header {
+    display: flex;
+
+    .p-button {
+      margin-right: 8px;
+    }
+  }
+}

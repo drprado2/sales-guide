@@ -30,6 +30,7 @@ const initialState: SellerState = {
     enable: { value: true, validations: [], errors: [] },
     phone: { value: '', validations: [validPhone], errors: [] },
     zoneId: { value: '', validations: [required], errors: [] },
+    employeeTypeId: { value: '', validations: [required], errors: [] },
     isCpf: { value: true, validations: [], errors: [] },
   },
   updateForm: {
@@ -41,6 +42,7 @@ const initialState: SellerState = {
     enable: { value: true, validations: [], errors: [] },
     phone: { value: '', validations: [validPhone], errors: [] },
     zoneId: { value: '', validations: [required], errors: [] },
+    employeeTypeId: { value: '', validations: [required], errors: [] },
     isCpf: { value: true, validations: [], errors: [] },
   },
   viewData: {
@@ -60,6 +62,8 @@ const initialState: SellerState = {
     lastAccess: undefined,
     phone: '',
     zoneId: '',
+    employeeTypeId: '',
+    employeeTypeName: '',
     zoneName: '',
   },
   paginated: {
@@ -114,6 +118,7 @@ const slice = createSlice({
       state.updateForm.document.value = action.payload.document;
       state.updateForm.enable.value = action.payload.enable;
       state.updateForm.zoneId.value = action.payload.zoneId;
+      state.updateForm.employeeTypeId.value = action.payload.employeeTypeId;
     },
     onGetByIdFailure(state, action: PayloadAction) {
       state.loadingGetById = false;

@@ -1,0 +1,38 @@
+#edit-employeeType-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 5px;
+
+  .p-datepicker table td, .p-datepicker .p-datepicker-buttonbar {
+    padding: 0;
+  }
+
+
+  .p-inputtext, .p-password, .p-calendar {
+    width: 100%;
+  }
+
+  .image-area {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    position: absolute;
+
+    > .p-button {
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .btn-area {
+    .p-button {
+      margin: .5em;
+    }
+  }
+}

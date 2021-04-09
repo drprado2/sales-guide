@@ -9,24 +9,36 @@ import api from '../../../services/api';
 import * as errorsActions from '../errors/slice';
 import { PaginatedResponse } from '../../types/PaginatedResponse';
 import {
-  CreateSellerForm, UpdateSellerForm, Seller, SellerList,
+  CreateEmployeeTypeForm, UpdateEmployeeTypeForm, EmployeeType, EmployeeTypeList, EmployeeTypeOption,
 } from './types';
-import { FormValue } from '../../types/FormValue';
-import { isValid } from '../../validations/validations';
 
-const baseUrl = 'api/v1/sellers';
+const baseUrl = 'api/v1/employee_types';
 
 export function* getList() {
   let response : AxiosResponse;
   try {
-    const { paginateFilter, filter } = yield select((state) => state.sellers);
+    const { paginateFilter, filter } = yield select((state) => state.employeeTypes);
     response = yield call(api.get, `${baseUrl}`, { params: { ...paginateFilter, ...filter } });
-    const castResp = response.data as PaginatedResponse<SellerList>;
-    castResp.data = castResp.data.map((d) => ({ ...d, lastAccess: d.lastAccess ? format(new Date(d.lastAccess), 'dd/MM/yyyy') : undefined }));
+    const castResp = response.data as PaginatedResponse<EmployeeTypeList>;
+    castResp.data = castResp.data.map((d) => ({ ...d, createdAt: format(new Date(d.createdAt), 'dd/MM/yyyy'), updatedAt: format(new Date(d.updatedAt), 'dd/MM/yyyy') }));
     yield put(actions.onGetListSuccess(castResp));
   } catch (err) {
-    console.error('Fail getting paginated sellers', err);
+    console.error('Fail getting paginated employeeTypes', err);
     yield put(actions.onGetListFailure());
+    const { errors } = err.response.data;
+    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+  }
+}
+
+export function* getOptions() {
+  let response : AxiosResponse;
+  try {
+    response = yield call(api.get, `${baseUrl}/options`);
+    const castResp = response.data as Array<EmployeeTypeOption>;
+    yield put(actions.onGetOptionsSuccess(castResp));
+  } catch (err) {
+    console.error('Fail getting options employeeTypes', err);
+    yield put(actions.onGetOptionsFailure());
     const { errors } = err.response.data;
     yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
   }
@@ -36,10 +48,10 @@ export function* getById(action: PayloadAction<string>) {
   let response : AxiosResponse;
   try {
     response = yield call(api.get, `${baseUrl}/${action.payload}`);
-    const castResp = response.data as Seller;
+    const castResp = response.data as EmployeeType;
     yield put(actions.onGetByIdSuccess(castResp));
   } catch (err) {
-    console.error('Fail getting seller by id', err);
+    console.error('Fail getting employeeType by id', err);
     yield put(actions.onGetByIdFailure());
     const { errors } = err.response.data;
     yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
@@ -51,25 +63,18 @@ export function* create() {
   try {
     const {
       createForm,
-    } = yield select((state) => state.sellers);
+    } = yield select((state) => state.employeeTypes);
 
-    const form = createForm as CreateSellerForm;
+    const form = createForm as CreateEmployeeTypeForm;
     const req = {
-      email: form.email.value,
       name: form.name.value,
-      avatarImage: form.avatarImage.value,
-      zoneId: form.zoneId.value,
-      employeeTypeId: form.employeeTypeId.value,
-      document: form.document.value,
-      phone: form.phone.value,
-      birthDate: form.birthDate.value,
-      enable: form.enable.value,
+      description: form.description.value,
     };
 
     yield call(api.post, `${baseUrl}`, req);
     yield put(actions.onCreateSuccess());
   } catch (err) {
-    console.error('Fail creating seller', err);
+    console.error('Fail creating employeeType', err);
     yield put(actions.onCreateFailure());
     const { errors } = err.response.data;
     yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
@@ -79,31 +84,20 @@ export function* create() {
 export function* update() {
   let response : AxiosResponse;
   try {
-    yield put(actions.validateUpdateForm());
     const {
       updateForm,
-    } = yield select((state) => state.sellers);
-    if (!isValid(updateForm)) {
-      yield put(actions.onUpdateFailure());
-      yield put(errorsActions.appendErrors([{ title: 'Formulário inválido', code: '00', message: 'Por favor corriga os valores do formulário' }]));
-      return;
-    }
-    const form = updateForm as UpdateSellerForm;
+    } = yield select((state) => state.employeeTypes);
+
+    const form = updateForm as UpdateEmployeeTypeForm;
     const req = {
       name: form.name.value,
-      avatarImage: form.avatarImage.value,
-      zoneId: form.zoneId.value,
-      employeeTypeId: form.employeeTypeId.value,
-      document: form.document.value,
-      phone: form.phone.value,
-      birthDate: form.birthDate.value,
-      enable: form.enable.value,
+      description: form.description.value,
     };
 
     yield call(api.put, `${baseUrl}/${form.id.value}`, req);
     yield put(actions.onUpdateSuccess());
   } catch (err) {
-    console.error('Fail updating seller', err, err?.response?.data);
+    console.error('Fail updating employeeType', err.response.data);
     yield put(actions.onUpdateFailure());
     const { errors } = err.response.data;
     yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
@@ -115,12 +109,12 @@ export function* deleteRegistry(action: PayloadAction<{id: string, callBack: {()
   try {
     const {
       createForm,
-    } = yield select((state) => state.sellers);
+    } = yield select((state) => state.employeeTypes);
 
     yield call(api.delete, `${baseUrl}/${action.payload.id}`);
     yield put(actions.onDeleteSuccess(action.payload.id));
   } catch (err) {
-    console.error('Fail deleting seller', err.response.data);
+    console.error('Fail deleting employeeType', err.response.data);
     yield put(actions.onDeleteFailure());
     const { errors } = err.response.data;
     yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
@@ -130,8 +124,8 @@ export function* deleteRegistry(action: PayloadAction<{id: string, callBack: {()
 export default all([
   takeLatest(actions.getList.type, getList),
   takeLatest(actions.setPaginateFilter.type, getList),
-  takeLatest(actions.setFilter.type, getList),
   takeLatest(actions.onDeleteSuccess.type, getList),
+  takeLatest(actions.getOptions.type, getOptions),
   takeLatest(actions.getById.type, getById),
   takeLatest(actions.updateRequest.type, update),
   takeLatest(actions.createRequest.type, create),

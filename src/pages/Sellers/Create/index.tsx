@@ -26,11 +26,15 @@ import {
 import {
   getOptions,
 } from '../../../store/modules/zones/slice';
+import {
+  getOptions as getEmployeeTypeOptions,
+} from '../../../store/modules/employeeTypes/slice';
 import { StoreState } from '../../../store';
 import { isValid } from '../../../store/validations/validations';
 import { fileToBase64 } from '../../../utils/file-utils';
 import { setFormField } from '../../../store/modules/user-profile/slice';
 import CreateZoneModal from '../../Zone/components/CreateModal';
+import CreateEmployeeTypeModal from '../../EmployeeType/components/CreateModal';
 
 const CreateSellerPage = () => {
   const toast = useRef<Toast>(null);
@@ -39,12 +43,15 @@ const CreateSellerPage = () => {
   const location = useLocation();
   const [isBlocking, setIsBlocking] = useState(false);
   const [createZoneOpen, setCreateZoneOpen] = useState(false);
+  const [createEmployeeTypeOpen, setCreateEmployeeTypeOpen] = useState(false);
   const inputUploadRef = useRef<HTMLInputElement>(null);
   const {
     loadingSaveForm, createForm, loadingGetById,
   } = useSelector((state: StoreState) => state.sellers);
   const zoneOptions = useSelector((state: StoreState) => state.zones.options);
   const loadingZoneOptions = useSelector((state: StoreState) => state.zones.loadingOptions);
+  const employeeTypeOptions = useSelector((state: StoreState) => state.employeeTypes.options);
+  const loadingEmployeeTypeOptions = useSelector((state: StoreState) => state.employeeTypes.loadingOptions);
 
   const onAvatarSelected = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -82,6 +89,7 @@ const CreateSellerPage = () => {
 
   useEffect(() => {
     dispatch(getOptions());
+    dispatch(getEmployeeTypeOptions());
     dispatch(validateCreateForm());
     return () => {
       dispatch(resetCreateForm());
@@ -116,6 +124,14 @@ const CreateSellerPage = () => {
               setCreateZoneOpen(false);
             }}
             onCancel={() => setCreateZoneOpen(false)}
+          />
+          <CreateEmployeeTypeModal
+            isOpen={createEmployeeTypeOpen}
+            onSave={() => {
+              dispatch(getEmployeeTypeOptions());
+              setCreateEmployeeTypeOpen(false);
+            }}
+            onCancel={() => setCreateEmployeeTypeOpen(false)}
           />
           <Toast ref={toast} />
           <Prompt
@@ -261,8 +277,8 @@ const CreateSellerPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="p-col-5 p-offset-2" style={{ marginTop: '-12px' }}>
-                  <span className="p-float-label" style={{ width: '95%' }}>
+                <div className="p-col-4">
+                  <span className="p-float-label">
                     <div className="p-inputgroup">
                       <Dropdown
                         disabled={loadingZoneOptions}
@@ -282,7 +298,7 @@ const CreateSellerPage = () => {
                     <small id="zoneId-help" className="p-error p-d-block">{createForm.zoneId.errors.join(', ')}</small>
                   </span>
                 </div>
-                <div className="p-col-5" style={{ marginTop: '-12px', marginLeft: '-16px' }}>
+                <div className="p-col-4">
                   <span className="p-float-label">
                     <InputText
                       id="email"
@@ -296,6 +312,27 @@ const CreateSellerPage = () => {
                     />
                     <small id="email-help" className="p-error p-d-block">{createForm.email.errors.join(', ')}</small>
                     <label htmlFor="email">E-mail</label>
+                  </span>
+                </div>
+                <div className="p-col-4">
+                  <span className="p-float-label">
+                    <div className="p-inputgroup">
+                      <Dropdown
+                        disabled={loadingEmployeeTypeOptions}
+                        id="employeeTypeId"
+                        optionLabel="label"
+                        optionValue="value"
+                        value={createForm?.employeeTypeId?.value}
+                        options={employeeTypeOptions}
+                        onChange={(e) => {
+                          setIsBlocking(true);
+                          dispatch(setCreateFormField({ fieldName: 'employeeTypeId', value: e.value }));
+                        }}
+                      />
+                      <label style={{ marginLeft: 12 }} htmlFor="employeeTypeId">Tipo de Contratação</label>
+                      <Button type="button" icon="pi pi-plus" onClick={() => setCreateEmployeeTypeOpen(true)} />
+                    </div>
+                    <small id="zoneId-help" className="p-error p-d-block">{createForm.employeeTypeId.errors.join(', ')}</small>
                   </span>
                 </div>
               </div>

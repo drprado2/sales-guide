@@ -26,11 +26,15 @@ import {
 import {
   getOptions,
 } from '../../../store/modules/zones/slice';
+import {
+  getOptions as getEmployeeTypeOptions,
+} from '../../../store/modules/employeeTypes/slice';
 import { StoreState } from '../../../store';
 import { isValid } from '../../../store/validations/validations';
 import { fileToBase64 } from '../../../utils/file-utils';
 import { setFormField } from '../../../store/modules/user-profile/slice';
 import CreateZoneModal from '../../Zone/components/CreateModal';
+import CreateEmployeeTypeModal from '../../EmployeeType/components/CreateModal';
 
 const EditSellerPage = () => {
   const toast = useRef<Toast>(null);
@@ -39,12 +43,15 @@ const EditSellerPage = () => {
   const location = useLocation();
   const [isBlocking, setIsBlocking] = useState(false);
   const [createZoneOpen, setCreateZoneOpen] = useState(false);
+  const [createEmployeeTypeOpen, setCreateEmployeeTypeOpen] = useState(false);
   const inputUploadRef = useRef<HTMLInputElement>(null);
   const {
     loadingSaveForm, updateForm, loadingGetById, viewData,
   } = useSelector((state: StoreState) => state.sellers);
   const zoneOptions = useSelector((state: StoreState) => state.zones.options);
   const loadingZoneOptions = useSelector((state: StoreState) => state.zones.loadingOptions);
+  const employeeTypeOptions = useSelector((state: StoreState) => state.employeeTypes.options);
+  const loadingEmployeeTypeOptions = useSelector((state: StoreState) => state.employeeTypes.loadingOptions);
 
   const onAvatarSelected = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -104,6 +111,7 @@ const EditSellerPage = () => {
 
   useEffect(() => {
     dispatch(getOptions());
+    dispatch(getEmployeeTypeOptions());
     return () => {
       dispatch(resetUpdateForm());
     };
@@ -137,6 +145,14 @@ const EditSellerPage = () => {
               setCreateZoneOpen(false);
             }}
             onCancel={() => setCreateZoneOpen(false)}
+          />
+          <CreateEmployeeTypeModal
+            isOpen={createEmployeeTypeOpen}
+            onSave={() => {
+              dispatch(getEmployeeTypeOptions());
+              setCreateEmployeeTypeOpen(false);
+            }}
+            onCancel={() => setCreateEmployeeTypeOpen(false)}
           />
           <Toast ref={toast} />
           <Prompt
@@ -302,6 +318,27 @@ const EditSellerPage = () => {
                       <Button type="button" icon="pi pi-plus" onClick={() => setCreateZoneOpen(true)} />
                     </div>
                     <small id="zoneId-help" className="p-error p-d-block">{updateForm.zoneId.errors.join(', ')}</small>
+                  </span>
+                </div>
+                <div className="p-col-5" style={{ marginTop: '-12px', marginLeft: '-16px' }}>
+                  <span className="p-float-label" style={{ width: '95%' }}>
+                    <div className="p-inputgroup">
+                      <Dropdown
+                        disabled={loadingEmployeeTypeOptions}
+                        id="employeeTypeId"
+                        optionLabel="label"
+                        optionValue="value"
+                        value={updateForm?.employeeTypeId?.value}
+                        options={employeeTypeOptions}
+                        onChange={(e) => {
+                          setIsBlocking(true);
+                          dispatch(setUpdateFormField({ fieldName: 'employeeTypeId', value: e.value }));
+                        }}
+                      />
+                      <label style={{ marginLeft: 12 }} htmlFor="employeeTypeId">Tipo de Contratação</label>
+                      <Button type="button" icon="pi pi-plus" onClick={() => setCreateEmployeeTypeOpen(true)} />
+                    </div>
+                    <small id="zoneId-help" className="p-error p-d-block">{updateForm.employeeTypeId.errors.join(', ')}</small>
                   </span>
                 </div>
               </div>

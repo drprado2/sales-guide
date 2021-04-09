@@ -13,7 +13,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
 import {
   setCreateFormField, resetCreateForm, createRequest, validateCreateForm, getOptions,
-} from '../../../../store/modules/zones/slice';
+} from '../../../../store/modules/employeeTypes/slice';
 import { StoreState } from '../../../../store';
 import { isValid } from '../../../../store/validations/validations';
 
@@ -23,18 +23,18 @@ interface Props {
   onSave: {(): void}
 }
 
-const CreateZoneModal : React.FC<Props> = ({ isOpen, onSave, onCancel }) => {
+const CreateEmployeeTypeModal : React.FC<Props> = ({ isOpen, onSave, onCancel }) => {
   const toast = useRef<Toast>(null);
   const dispatch = useDispatch();
   const [isBlocking, setIsBlocking] = useState(false);
 
   const {
     loadingSaveForm, createForm,
-  } = useSelector((state: StoreState) => state.zones);
+  } = useSelector((state: StoreState) => state.employeeTypes);
 
   const onSaveSuccess = () => {
     toast.current?.show({
-      severity: 'success', summary: 'Salvo!', detail: 'Região salva com sucesso!', life: 1500,
+      severity: 'success', summary: 'Salvo!', detail: 'Tipo de contratação salvo com sucesso!', life: 1500,
     });
     setTimeout(onSave, 1500);
   };
@@ -59,7 +59,7 @@ const CreateZoneModal : React.FC<Props> = ({ isOpen, onSave, onCancel }) => {
   return (
     <>
       <Dialog
-        header="Criar Região"
+        header="Criar Tipo de Contratação"
         visible={isOpen}
         style={{ width: '60vw' }}
         breakpoints={{ '960px': '75vw', '640px': '100vw' }}
@@ -72,7 +72,7 @@ const CreateZoneModal : React.FC<Props> = ({ isOpen, onSave, onCancel }) => {
           dispatch(validateCreateForm());
         }}
       >
-        <div id="edit-zone-page" className="p-grid p-align-center">
+        <div id="edit-employeeType-page" className="p-grid p-align-center">
           <Toast ref={toast} />
           <Prompt
             when={isBlocking}
@@ -127,4 +127,4 @@ const CreateZoneModal : React.FC<Props> = ({ isOpen, onSave, onCancel }) => {
   );
 };
 
-export default CreateZoneModal;
+export default CreateEmployeeTypeModal;

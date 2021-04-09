@@ -6,6 +6,7 @@ export interface CreateSellerForm {
   name: FormValue<string>;
   email: FormValue<string>;
   zoneId: FormValue<string>;
+  employeeTypeId: FormValue<string>;
   document: FormValue<string>;
   phone: FormValue<string | undefined>,
   birthDate: FormValue<Date | undefined>,
@@ -19,6 +20,7 @@ export interface UpdateSellerForm {
   id: FormValue<string>;
   name: FormValue<string>;
   zoneId: FormValue<string>;
+  employeeTypeId: FormValue<string>;
   document: FormValue<string>;
   phone: FormValue<string | undefined>,
   birthDate: FormValue<Date | undefined>,
@@ -35,6 +37,8 @@ export interface Seller {
   name: string,
   email: string,
   zoneId: string,
+  employeeTypeId: string,
+  employeeTypeName: string,
   zoneName: string,
   document: string,
   phone: string | undefined,

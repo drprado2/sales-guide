@@ -240,6 +240,10 @@ const ViewSellerPage = () => {
                       <div className="label-value">{viewData.document}</div>
                     </div>
                     <div className="p-col-4">
+                      <div className="label">Tipo de Contratação:</div>
+                      <div className="label-value">{viewData.employeeTypeName}</div>
+                    </div>
+                    <div className="p-col-4">
                       <div className="label">Telefone:</div>
                       <div className="label-value">{viewData.phone}</div>
                     </div>
