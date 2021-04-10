@@ -25,8 +25,7 @@ export function* getList() {
   } catch (err) {
     console.error('Fail getting paginated employeeTypes', err);
     yield put(actions.onGetListFailure());
-    const { errors } = err.response.data;
-    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 
@@ -39,8 +38,7 @@ export function* getOptions() {
   } catch (err) {
     console.error('Fail getting options employeeTypes', err);
     yield put(actions.onGetOptionsFailure());
-    const { errors } = err.response.data;
-    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 
@@ -53,8 +51,7 @@ export function* getById(action: PayloadAction<string>) {
   } catch (err) {
     console.error('Fail getting employeeType by id', err);
     yield put(actions.onGetByIdFailure());
-    const { errors } = err.response.data;
-    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 
@@ -76,8 +73,7 @@ export function* create() {
   } catch (err) {
     console.error('Fail creating employeeType', err);
     yield put(actions.onCreateFailure());
-    const { errors } = err.response.data;
-    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 
@@ -97,10 +93,9 @@ export function* update() {
     yield call(api.put, `${baseUrl}/${form.id.value}`, req);
     yield put(actions.onUpdateSuccess());
   } catch (err) {
-    console.error('Fail updating employeeType', err.response.data);
+    console.error('Fail updating employeeType', err);
     yield put(actions.onUpdateFailure());
-    const { errors } = err.response.data;
-    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 
@@ -114,10 +109,9 @@ export function* deleteRegistry(action: PayloadAction<{id: string, callBack: {()
     yield call(api.delete, `${baseUrl}/${action.payload.id}`);
     yield put(actions.onDeleteSuccess(action.payload.id));
   } catch (err) {
-    console.error('Fail deleting employeeType', err.response.data);
+    console.error('Fail deleting employeeType', err);
     yield put(actions.onDeleteFailure());
-    const { errors } = err.response.data;
-    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 

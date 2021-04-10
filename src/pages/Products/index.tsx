@@ -8,7 +8,7 @@ import { resetBreadcrumbTo, setCurrentPage } from '../../store/modules/template/
 const ProductsPage = () => {
   const dispatch = useDispatch();
 
-  const currentRoute = allRoutes.find((r) => r.id === 'products');
+  const currentRoute = allRoutes.find((r) => r.id === 'productsGrouper')?.subPages.find((r) => r.id === 'products');
 
   useEffect(() => {
     if (currentRoute) {

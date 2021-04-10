@@ -1,6 +1,10 @@
 import React from 'react';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+  FaBook,
+  FaBoxes,
+  FaBoxOpen,
+  FaPhotoVideo,
   FcBriefcase,
   FcBusinessman, FcDepartment, FcGlobe, FcPieChart, FcSmartphoneTablet,
 } from 'react-icons/all';
@@ -32,6 +36,10 @@ import CreateEmployeeTypePage from '../../../pages/EmployeeType/Create';
 import EditEmployeeTypePage from '../../../pages/EmployeeType/Edit';
 import ViewEmployeeTypePage from '../../../pages/EmployeeType/View';
 import EmployeeTypesPage from '../../../pages/EmployeeType/List';
+import ProductCategoriesPage from '../../../pages/ProductCategory/List';
+import ViewProductCategoryPage from '../../../pages/ProductCategory/View';
+import EditProductCategoryPage from '../../../pages/ProductCategory/Edit';
+import CreateProductCategoryPage from '../../../pages/ProductCategory/Create';
 
 const authTokenKey = 'auth:token';
 const authRolesKey = 'auth:roles';
@@ -49,6 +57,8 @@ export const allRoutes: Route[] = [
     icon: <FcPieChart />,
     pageImage: dashboardImg,
     showOnMenu: true,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'view-company',
@@ -61,6 +71,8 @@ export const allRoutes: Route[] = [
     icon: <FcDepartment />,
     pageImage: companyImg,
     showOnMenu: true,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'edit-company',
@@ -73,6 +85,8 @@ export const allRoutes: Route[] = [
     icon: <FcDepartment />,
     pageImage: companyImg,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'zone-list',
@@ -85,6 +99,8 @@ export const allRoutes: Route[] = [
     icon: <FcGlobe />,
     pageImage: zonesImg,
     showOnMenu: true,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'view-zone',
@@ -97,6 +113,8 @@ export const allRoutes: Route[] = [
     icon: <FcGlobe />,
     pageImage: zonesImg,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'edit-zone',
@@ -109,6 +127,8 @@ export const allRoutes: Route[] = [
     icon: <FcGlobe />,
     pageImage: zonesImg,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'create-zone',
@@ -121,6 +141,8 @@ export const allRoutes: Route[] = [
     icon: <FcGlobe />,
     pageImage: zonesImg,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'employeeType-list',
@@ -133,6 +155,8 @@ export const allRoutes: Route[] = [
     icon: <FcBriefcase />,
     pageImage: employeeTypeImg,
     showOnMenu: true,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'view-employeeType',
@@ -145,6 +169,8 @@ export const allRoutes: Route[] = [
     icon: <FcBriefcase />,
     pageImage: employeeTypeImg,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'edit-employeeType',
@@ -157,6 +183,8 @@ export const allRoutes: Route[] = [
     icon: <FcBriefcase />,
     pageImage: employeeTypeImg,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'create-employeeType',
@@ -169,6 +197,8 @@ export const allRoutes: Route[] = [
     icon: <FcBriefcase />,
     pageImage: employeeTypeImg,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'seller-list',
@@ -181,6 +211,8 @@ export const allRoutes: Route[] = [
     icon: <FcBusinessman />,
     pageImage: sellersImg,
     showOnMenu: true,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'view-seller',
@@ -193,6 +225,8 @@ export const allRoutes: Route[] = [
     icon: <FcBusinessman />,
     pageImage: sellersImg,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'edit-seller',
@@ -205,6 +239,8 @@ export const allRoutes: Route[] = [
     icon: <FcBusinessman />,
     pageImage: sellersImg,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'create-seller',
@@ -217,18 +253,79 @@ export const allRoutes: Route[] = [
     icon: <FcBusinessman />,
     pageImage: sellersImg,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
   {
-    id: 'products',
-    component: ProductsPage,
+    id: 'productsGrouper',
+    component: () => <div />,
     exact: true,
-    path: '/products',
+    path: '',
     isDefaultForCurrentUser: (roles) => false,
     roles: ['VIEWER'],
-    title: 'Produtos',
+    title: 'Produtos e Treinamentos',
     icon: <FcSmartphoneTablet />,
     pageImage: productsImg,
     showOnMenu: true,
+    subPages: [
+      {
+        id: 'productCategory-list',
+        component: ProductCategoriesPage,
+        exact: true,
+        path: '/product_categories',
+        isDefaultForCurrentUser: (roles) => false,
+        roles: ['VIEWER'],
+        title: 'Categorias de Produto',
+        icon: <FcGlobe />,
+        pageImage: zonesImg,
+        showOnMenu: true,
+        subPages: [],
+        isGrouper: false,
+      },
+      {
+        id: 'products',
+        component: ProductsPage,
+        exact: true,
+        path: '/products',
+        isDefaultForCurrentUser: (roles) => false,
+        roles: ['VIEWER'],
+        title: 'Produtos',
+        icon: <FaBoxOpen />,
+        pageImage: productsImg,
+        showOnMenu: true,
+        subPages: [],
+        isGrouper: false,
+      },
+      {
+        id: 'treinaments',
+        component: ProductsPage,
+        exact: true,
+        path: '/treinaments',
+        isDefaultForCurrentUser: (roles) => false,
+        roles: ['VIEWER'],
+        title: 'Treinamentos',
+        icon: <FaBook />,
+        pageImage: productsImg,
+        showOnMenu: true,
+        subPages: [],
+        isGrouper: false,
+      },
+      {
+        id: 'comprovations',
+        component: ProductsPage,
+        exact: true,
+        path: '/comprovations',
+        isDefaultForCurrentUser: (roles) => false,
+        roles: ['VIEWER'],
+        title: 'Comprovações',
+        icon: <FaPhotoVideo />,
+        pageImage: productsImg,
+        showOnMenu: true,
+        subPages: [],
+        isGrouper: false,
+      },
+    ],
+    isGrouper: true,
   },
   {
     id: 'edit-user-profile',
@@ -241,6 +338,8 @@ export const allRoutes: Route[] = [
     icon: <FcSmartphoneTablet />,
     pageImage: undefined,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
   {
     id: 'view-user-profile',
@@ -253,6 +352,50 @@ export const allRoutes: Route[] = [
     icon: <FcSmartphoneTablet />,
     pageImage: undefined,
     showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
+  },
+  {
+    id: 'view-productCategory',
+    component: ViewProductCategoryPage,
+    exact: true,
+    path: '/product_categories/:id/view',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Visualizar Categoria de Produto',
+    icon: <FcGlobe />,
+    pageImage: zonesImg,
+    showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
+  },
+  {
+    id: 'edit-productCategory',
+    component: EditProductCategoryPage,
+    exact: true,
+    path: '/product_categories/:id/edit',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Editar Categoria de Produto',
+    icon: <FcGlobe />,
+    pageImage: zonesImg,
+    showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
+  },
+  {
+    id: 'create-productCategory',
+    component: CreateProductCategoryPage,
+    exact: true,
+    path: '/product_categories/create',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Criar Categoria de Produto',
+    icon: <FcGlobe />,
+    pageImage: zonesImg,
+    showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
   },
 ];
 

@@ -29,6 +29,7 @@ import { allRoutes } from '../../../store/modules/auth/slice';
 import { resetBreadcrumbTo, setCurrentPage } from '../../../store/modules/template/slice';
 import { getList, setPaginateFilter, deleteRequest } from '../../../store/modules/employeeTypes/slice';
 import { StoreState } from '../../../store';
+import EmptyTable from '../../../components/EmptyTable';
 
 const EmployeeTypesPage = () => {
   const dispatch = useDispatch();
@@ -180,7 +181,7 @@ const EmployeeTypesPage = () => {
             value={paginated.data}
             dataKey="id"
             rowHover
-            emptyMessage="Não a registros"
+            emptyMessage={<EmptyTable />}
             sortMode="multiple"
             removableSort
             exportFilename="regioes"

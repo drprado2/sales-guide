@@ -8,8 +8,43 @@ $highlight-color: white !default;
 @import '~react-pro-sidebar/dist/scss/styles.scss';
 
 .drawer-menu {
+  .pro-arrow-wrapper {
+    right: 12px !important;
+  }
+
   .pro-menu {
     padding: 0;
+
+    .pro-menu-item.active {
+      .pro-inner-item::before {
+        background-color: white;
+      }
+    }
+
+    > ul {
+      > .pro-menu-item {
+        transition: background-color .3s linear, border .1s linear;
+      }
+
+      > .pro-menu-item:hover:not(.open) {
+        border-right: 3px solid white;
+        background-color: #475462;
+      }
+
+      > .pro-menu-item.active {
+        background-color: #475462;
+        border-right: 3px solid white;
+      }
+
+      > .pro-menu-item {
+        border-bottom: 1px solid #999;
+      }
+
+    }
+  }
+
+  .pro-inner-item {
+    padding: 8px 25px 8px 20px !important;
   }
 
   box-shadow: 0 0 2rem 0 rgba(136,152,170,.15)!important;
@@ -26,27 +61,6 @@ $highlight-color: white !default;
     height: var(--header-height);
   }
 
-  .pro-menu-item {
-    transition: background-color .3s linear, border .1s linear;
-  }
-
-  .pro-menu-item:hover {
-    border-right: 3px solid white;
-    background-color: #475462;
-  }
-
-  .pro-menu-item.active {
-    background-color: #475462;
-    border-right: 3px solid white;
-  }
-
-  .pro-menu-item:hover {
-    //background-color: var(--surface-200);
-  }
-
-  .pro-menu-item {
-    border-bottom: 1px solid #999;
-  }
 
   .pro-item-content {
     font-weight: bold;

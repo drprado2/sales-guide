@@ -35,6 +35,7 @@ import {
 } from '../../../store/modules/sellers/slice';
 import { StoreState } from '../../../store';
 import { SellerList } from '../../../store/modules/sellers/types';
+import EmptyTable from '../../../components/EmptyTable';
 
 const SellersPage = () => {
   const dispatch = useDispatch();
@@ -222,7 +223,7 @@ const SellersPage = () => {
             value={paginated.data}
             dataKey="id"
             rowHover
-            emptyMessage="Não a vendedores"
+            emptyMessage={<EmptyTable />}
             sortMode="multiple"
             removableSort
             exportFilename="vendedores"

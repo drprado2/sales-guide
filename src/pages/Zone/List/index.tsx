@@ -29,6 +29,7 @@ import { allRoutes } from '../../../store/modules/auth/slice';
 import { resetBreadcrumbTo, setCurrentPage } from '../../../store/modules/template/slice';
 import { getList, setPaginateFilter, deleteRequest } from '../../../store/modules/zones/slice';
 import { StoreState } from '../../../store';
+import EmptyTable from '../../../components/EmptyTable';
 
 const ZonesPage = () => {
   const dispatch = useDispatch();
@@ -180,7 +181,7 @@ const ZonesPage = () => {
             value={paginated.data}
             dataKey="id"
             rowHover
-            emptyMessage="Não a regiões"
+            emptyMessage={<EmptyTable />}
             sortMode="multiple"
             removableSort
             exportFilename="regioes"

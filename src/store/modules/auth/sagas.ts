@@ -22,12 +22,10 @@ export function* signIn() {
     // @ts-ignore
     const userResp = yield call(api.get, `/api/v1/user/${planToken.userId}`);
     const user = userResp.data as User;
-    console.log('VEJA O PLAN TOKEN', user);
     yield put(actions.signInSuccess({ token: response.data.token, roles: ['VIEWER', 'SELLER'], user }));
   } catch (err) {
-    console.error('Fail singin 123', err);
     yield put(actions.signInFailure());
-    yield put(errorsActions.appendErrors(err.response.data.errors));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 

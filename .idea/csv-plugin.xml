@@ -24,6 +24,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\pages\ProductCategory\Edit\index.tsx">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\pages\Sellers\List\index.tsx">
           <value>
             <Attribute>

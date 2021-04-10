@@ -31,7 +31,7 @@ interface Props {
 }
 
 function calculateCenterPoint(locs: Array<Location>): any {
-  if (!locs) {
+  if (!locs || !google) {
     return { lat: 0, lng: 0 };
   }
   const bound = new google.maps.LatLngBounds();
@@ -170,7 +170,7 @@ const SellerProvesSentView : React.FC<Props> = ({ locations }) => {
                   <div className="p-grid">
                     {
                       l.products.map((p) => (
-                        <div className="p-col-3" style={{ position: 'relative' }}>
+                        <div key={p.name} className="p-col-3" style={{ position: 'relative' }}>
                           <img
                             alt={p.name}
                             src={p.image}

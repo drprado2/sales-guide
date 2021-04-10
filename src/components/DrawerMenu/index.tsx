@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -17,12 +17,11 @@ const DrawerMenu = () => {
   const dispatch = useDispatch();
   const { drawerOpen } = useSelector((state: StoreState) => state.template);
   const history = useHistory();
+  const [openSubMenu, setOpenSubMenu] = useState<Array<string>>([]);
 
   const { routeId } = useSelector(
     (state: StoreState) => state.template,
   );
-
-  console.log('no DRAWERR', authorizedRoutes);
 
   return (
     <ProSidebar
@@ -38,10 +37,33 @@ const DrawerMenu = () => {
       <SidebarContent>
         <Menu iconShape="circle">
           {authorizedRoutes.filter((r) => r.showOnMenu).map((r) => (
-            <MenuItem key={r.id} active={r.id === routeId} icon={r.icon}>
-              {t`${r.title}`}
-              <Link to={r.path} />
-            </MenuItem>
+            r.isGrouper ? (
+              <SubMenu
+                onClick={() => {
+                  if (openSubMenu.some((os) => os === r.id)) {
+                    setOpenSubMenu(openSubMenu.filter((os) => os !== r.id));
+                  } else {
+                    setOpenSubMenu(openSubMenu.concat(r.id));
+                  }
+                }}
+                key={r.id}
+                open={r.subPages.some((ir) => ir.id === routeId) || openSubMenu.some((os) => os === r.id)}
+                title={r.title}
+                icon={r.icon}
+              >
+                {r.subPages.map((sr) => (
+                  <MenuItem key={sr.id} active={sr.id === routeId}>
+                    {t`${sr.title}`}
+                    <Link to={sr.path} />
+                  </MenuItem>
+                ))}
+              </SubMenu>
+            ) : (
+              <MenuItem key={r.id} active={r.id === routeId} icon={r.icon}>
+                {t`${r.title}`}
+                <Link to={r.path} />
+              </MenuItem>
+            )
           ))}
         </Menu>
       </SidebarContent>

@@ -17,7 +17,7 @@ export function* getUser() {
   } catch (err) {
     console.error('Fail getting company', err);
     yield put(actions.onGetCompanyFailure());
-    yield put(errorsActions.appendErrors(err.response.data.errors));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 
@@ -34,9 +34,9 @@ export function* updateCompany() {
     });
     yield put(actions.onUpdateCompanySuccess());
   } catch (err) {
-    console.error('Fail updating company', err.response.data);
+    console.error('Fail updating company', err);
     yield put(actions.onUpdateCompanyFailure());
-    yield put(errorsActions.appendErrors(err.response.data.errors));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 

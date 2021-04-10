@@ -24,8 +24,11 @@ const errorsSlice = createSlice({
       state.errors = [];
     },
     appendErrors(state, action: PayloadAction<ErrorType[]>) {
-      console.log('colocando os erros', action.payload);
-      state.errors = action.payload;
+      if (!action.payload || action.payload.length === 0) {
+        state.errors = state.errors.concat([{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]);
+      } else {
+        state.errors = state.errors.concat(action.payload);
+      }
     },
   },
 });

@@ -27,8 +27,7 @@ export function* getList() {
   } catch (err) {
     console.error('Fail getting paginated sellers', err);
     yield put(actions.onGetListFailure());
-    const { errors } = err.response.data;
-    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 
@@ -41,8 +40,7 @@ export function* getById(action: PayloadAction<string>) {
   } catch (err) {
     console.error('Fail getting seller by id', err);
     yield put(actions.onGetByIdFailure());
-    const { errors } = err.response.data;
-    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 
@@ -71,8 +69,7 @@ export function* create() {
   } catch (err) {
     console.error('Fail creating seller', err);
     yield put(actions.onCreateFailure());
-    const { errors } = err.response.data;
-    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 
@@ -103,10 +100,9 @@ export function* update() {
     yield call(api.put, `${baseUrl}/${form.id.value}`, req);
     yield put(actions.onUpdateSuccess());
   } catch (err) {
-    console.error('Fail updating seller', err, err?.response?.data);
+    console.error('Fail updating seller', err);
     yield put(actions.onUpdateFailure());
-    const { errors } = err.response.data;
-    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 
@@ -120,10 +116,9 @@ export function* deleteRegistry(action: PayloadAction<{id: string, callBack: {()
     yield call(api.delete, `${baseUrl}/${action.payload.id}`);
     yield put(actions.onDeleteSuccess(action.payload.id));
   } catch (err) {
-    console.error('Fail deleting seller', err.response.data);
+    console.error('Fail deleting seller', err);
     yield put(actions.onDeleteFailure());
-    const { errors } = err.response.data;
-    yield put(errorsActions.appendErrors(errors && errors.length > 0 ? errors : [{ title: 'Erro inesperado', code: '00', message: 'Ocorreu um erro inesperado, por favor tente novamente mais tarde' }]));
+    yield put(errorsActions.appendErrors(err?.response?.data?.errors));
   }
 }
 

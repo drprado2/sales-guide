@@ -1,0 +1,43 @@
+#edit-productCategory-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .p-datepicker table td, .p-datepicker .p-datepicker-buttonbar {
+    padding: 0;
+  }
+
+
+  .p-inputtext, .p-password, .p-calendar {
+    width: 100%;
+  }
+
+  .icon-area {
+    border-radius: 5px;
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+
+    .p-button.p-button-icon-only.p-button-rounded {
+      width: 2em;
+      height: 2em;
+    }
+
+    .label-icon {
+      color: #888;
+      position: absolute;
+      top: -10px;
+      left: 5px;
+      font-size: .8em;
+    }
+
+    > .p-button {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}

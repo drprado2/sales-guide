@@ -30,6 +30,8 @@ export type Route = {
   id: string;
   pageImage: string | undefined;
   showOnMenu: boolean;
+  isGrouper: boolean;
+  subPages: Array<Route>;
 };
 
 export interface AuthState {
