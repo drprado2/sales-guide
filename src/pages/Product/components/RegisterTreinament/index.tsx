@@ -93,7 +93,7 @@ const RegisterTreinament : React.FC = () => {
           {question.options.map((p) => (
             <div key={p.id}>
               {p.isCorrect ? <i className="pi pi-check" /> : <i className="pi pi-times" />}
-              <span className="question-text">{p.content}</span>
+              <span className="question-text" style={p.isCorrect ? { fontWeight: 'bold' } : {}}>{p.content}</span>
             </div>
           ))}
           <div className="menu-btn-area">
