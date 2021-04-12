@@ -70,14 +70,14 @@ const SellerProvesSentView : React.FC<Props> = ({ locations }) => {
   };
 
   useEffect(() => {
-    if (!isMapReady) {
+    if (!isMapReady || !google) {
       return;
     }
     setLocs(locations.sort((a, b) => b.date.getTime() - a.date.getTime()));
   }, [locations, isMapReady]);
 
   useEffect(() => {
-    if (!isMapReady) {
+    if (!isMapReady || !google) {
       return;
     }
     setOverlays(locs.filter((l, i) => !hiddenOnMap.some((h) => h === i)).map((l, i) => new google.maps.Marker(

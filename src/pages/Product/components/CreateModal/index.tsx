@@ -13,7 +13,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
 import {
   setCreateFormField, resetCreateForm, createRequest, validateCreateForm, getOptions,
-} from '../../../../store/modules/productCategories/slice';
+} from '../../../../store/modules/products/slice';
 import { StoreState } from '../../../../store';
 import { isValid } from '../../../../store/validations/validations';
 import { fileToBase64 } from '../../../../utils/file-utils';
@@ -24,7 +24,7 @@ interface Props {
   onSave: {(): void}
 }
 
-const CreateProductCategoryModal : React.FC<Props> = ({ isOpen, onSave, onCancel }) => {
+const CreateProductModal : React.FC<Props> = ({ isOpen, onSave, onCancel }) => {
   const toast = useRef<Toast>(null);
   const dispatch = useDispatch();
   const [isBlocking, setIsBlocking] = useState(false);
@@ -32,7 +32,7 @@ const CreateProductCategoryModal : React.FC<Props> = ({ isOpen, onSave, onCancel
 
   const {
     loadingSaveForm, createForm,
-  } = useSelector((state: StoreState) => state.productCategories);
+  } = useSelector((state: StoreState) => state.products);
 
   const onSaveSuccess = () => {
     toast.current?.show({
@@ -46,7 +46,7 @@ const CreateProductCategoryModal : React.FC<Props> = ({ isOpen, onSave, onCancel
     saveForm();
   };
 
-  const onIconSelected = async (event: ChangeEvent<HTMLInputElement>) => {
+  const onMainImageSelect = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setIsBlocking(true);
       const file = event.target.files[0];
@@ -70,7 +70,7 @@ const CreateProductCategoryModal : React.FC<Props> = ({ isOpen, onSave, onCancel
   return (
     <>
       <Dialog
-        header="Criar Categoria de Produto"
+        header="Criar Produto"
         visible={isOpen}
         style={{ width: '60vw' }}
         breakpoints={{ '960px': '75vw', '640px': '100vw' }}
@@ -83,7 +83,7 @@ const CreateProductCategoryModal : React.FC<Props> = ({ isOpen, onSave, onCancel
           dispatch(validateCreateForm());
         }}
       >
-        <div id="edit-productCategory-page" className="p-grid p-align-center">
+        <div id="edit-product-page" className="p-grid p-align-center">
           <Toast ref={toast} />
           <Prompt
             when={isBlocking}
@@ -97,11 +97,11 @@ const CreateProductCategoryModal : React.FC<Props> = ({ isOpen, onSave, onCancel
                 <div className="p-col-1">
                   <div className="icon-area p-shadow-3" style={{ backgroundImage: `url(${createForm.icon.value})` }}>
                     <label className="label-icon" htmlFor="icon">Ícone</label>
-                    <input onChange={onIconSelected} style={{ display: 'none' }} ref={iconUploadRef} type="file" id="icon" name="icon" accept="image/png, image/jpeg" />
+                    <input onChange={onMainImageSelect} style={{ display: 'none' }} ref={iconUploadRef} type="file" id="icon" name="icon" accept="image/png, image/jpeg" />
                     <Button type="button" icon="pi pi-camera" className="p-button-rounded p-button-primary p-button-sm" htmlFor="icon" onClick={() => iconUploadRef.current?.click()} />
                   </div>
                 </div>
-                <div className="p-col-5">
+                <div className="p-col-1">
                   <span className="p-float-label">
                     <InputText
                       id="name"
@@ -145,4 +145,4 @@ const CreateProductCategoryModal : React.FC<Props> = ({ isOpen, onSave, onCancel
   );
 };
 
-export default CreateProductCategoryModal;
+export default CreateProductModal;

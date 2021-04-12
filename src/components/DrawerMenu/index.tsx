@@ -47,19 +47,19 @@ const DrawerMenu = () => {
                   }
                 }}
                 key={r.id}
-                open={r.subPages.some((ir) => ir.id === routeId) || openSubMenu.some((os) => os === r.id)}
+                open={r.subPages.some((ir) => ir.idsActiveInMenu.some((sir) => sir === routeId)) || openSubMenu.some((os) => os === r.id)}
                 title={r.title}
                 icon={r.icon}
               >
                 {r.subPages.map((sr) => (
-                  <MenuItem key={sr.id} active={sr.id === routeId}>
+                  <MenuItem key={sr.id} active={sr.idsActiveInMenu.some((sir) => sir === routeId)}>
                     {t`${sr.title}`}
                     <Link to={sr.path} />
                   </MenuItem>
                 ))}
               </SubMenu>
             ) : (
-              <MenuItem key={r.id} active={r.id === routeId} icon={r.icon}>
+              <MenuItem key={r.id} active={r.idsActiveInMenu.some((sir) => sir === routeId)} icon={r.icon}>
                 {t`${r.title}`}
                 <Link to={r.path} />
               </MenuItem>

@@ -28,6 +28,7 @@ export type Route = {
   title: string;
   icon: JSX.Element;
   id: string;
+  idsActiveInMenu: Array<string>;
   pageImage: string | undefined;
   showOnMenu: boolean;
   isGrouper: boolean;

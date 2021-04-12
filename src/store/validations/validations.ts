@@ -18,6 +18,13 @@ export function required(value: string) : string | undefined {
   return undefined;
 }
 
+export function notEmpty(value: Array<any>) : string | undefined {
+  if (value?.length === 0 ?? true) {
+    return 'valor obrigatório';
+  }
+  return undefined;
+}
+
 export function notContainsNumbers(value: string) : string | undefined {
   const reg = /[0-9]+/;
   if (value?.length === 0 ?? true) {
@@ -173,4 +180,13 @@ export function isEmail(value: string) : string | undefined {
     return 'deve ser um e-mail válido';
   }
   return undefined;
+}
+
+export function greatherThanOrEqual(min: number) : {(value: number): string | undefined} {
+  return (value: number) => {
+    if (value < min) {
+      return `deve ser maior que ${min}`;
+    }
+    return undefined;
+  };
 }

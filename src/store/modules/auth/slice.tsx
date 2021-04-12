@@ -19,8 +19,8 @@ import sellersImg from '../../../assets/images/sellers-page-img.svg';
 import productsImg from '../../../assets/images/products-page-img.svg';
 import zonesImg from '../../../assets/images/zones-page.svg';
 import employeeTypeImg from '../../../assets/images/employee-type-page.svg';
+import productCategoryImg from '../../../assets/images/product-category.svg';
 import ViewCompanyPage from '../../../pages/ViewCompany';
-import ProductsPage from '../../../pages/Products';
 import EditUserProfilePage from '../../../pages/EditUserProfile';
 import ViewUserProfilePage from '../../../pages/ViewUserProfile';
 import EditCompanyPage from '../../../pages/EditCompany';
@@ -40,6 +40,10 @@ import ProductCategoriesPage from '../../../pages/ProductCategory/List';
 import ViewProductCategoryPage from '../../../pages/ProductCategory/View';
 import EditProductCategoryPage from '../../../pages/ProductCategory/Edit';
 import CreateProductCategoryPage from '../../../pages/ProductCategory/Create';
+import ProductsPage from '../../../pages/Product/List';
+import ViewProductPage from '../../../pages/Product/View';
+import EditProductPage from '../../../pages/Product/Edit';
+import CreateProductPage from '../../../pages/Product/Create';
 
 const authTokenKey = 'auth:token';
 const authRolesKey = 'auth:roles';
@@ -59,9 +63,11 @@ export const allRoutes: Route[] = [
     showOnMenu: true,
     subPages: [],
     isGrouper: false,
+    idsActiveInMenu: ['dashboard'],
   },
   {
     id: 'view-company',
+    idsActiveInMenu: ['view-company', 'edit-company'],
     component: ViewCompanyPage,
     exact: true,
     path: '/company/:id',
@@ -76,6 +82,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'edit-company',
+    idsActiveInMenu: ['view-company', 'edit-company'],
     component: EditCompanyPage,
     exact: true,
     path: '/company/:id/edit',
@@ -90,6 +97,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'zone-list',
+    idsActiveInMenu: ['zone-list', 'view-zone', 'edit-zone', 'create-zone'],
     component: ZonesPage,
     exact: true,
     path: '/zones',
@@ -104,6 +112,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'view-zone',
+    idsActiveInMenu: ['zone-list', 'view-zone', 'edit-zone', 'create-zone'],
     component: ViewZonePage,
     exact: true,
     path: '/zones/:id/view',
@@ -118,6 +127,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'edit-zone',
+    idsActiveInMenu: ['zone-list', 'view-zone', 'edit-zone', 'create-zone'],
     component: EditZonePage,
     exact: true,
     path: '/zones/:id/edit',
@@ -132,6 +142,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'create-zone',
+    idsActiveInMenu: ['zone-list', 'view-zone', 'edit-zone', 'create-zone'],
     component: CreateZonePage,
     exact: true,
     path: '/zones/create',
@@ -146,6 +157,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'employeeType-list',
+    idsActiveInMenu: ['employeeType-list', 'view-employeeType', 'edit-employeeType', 'create-employeeType'],
     component: EmployeeTypesPage,
     exact: true,
     path: '/employee_types',
@@ -160,6 +172,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'view-employeeType',
+    idsActiveInMenu: ['employeeType-list', 'view-employeeType', 'edit-employeeType', 'create-employeeType'],
     component: ViewEmployeeTypePage,
     exact: true,
     path: '/employee_types/:id/view',
@@ -174,6 +187,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'edit-employeeType',
+    idsActiveInMenu: ['employeeType-list', 'view-employeeType', 'edit-employeeType', 'create-employeeType'],
     component: EditEmployeeTypePage,
     exact: true,
     path: '/employee_types/:id/edit',
@@ -188,6 +202,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'create-employeeType',
+    idsActiveInMenu: ['employeeType-list', 'view-employeeType', 'edit-employeeType', 'create-employeeType'],
     component: CreateEmployeeTypePage,
     exact: true,
     path: '/employee_types/create',
@@ -202,6 +217,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'seller-list',
+    idsActiveInMenu: ['seller-list', 'view-seller', 'edit-seller', 'create-seller'],
     component: SellersPage,
     exact: true,
     path: '/sellers',
@@ -216,6 +232,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'view-seller',
+    idsActiveInMenu: ['seller-list', 'view-seller', 'edit-seller', 'create-seller'],
     component: ViewSellerPage,
     exact: true,
     path: '/sellers/:id/view',
@@ -230,6 +247,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'edit-seller',
+    idsActiveInMenu: ['seller-list', 'view-seller', 'edit-seller', 'create-seller'],
     component: EditSellerPage,
     exact: true,
     path: '/sellers/:id/edit',
@@ -244,6 +262,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'create-seller',
+    idsActiveInMenu: ['seller-list', 'view-seller', 'edit-seller', 'create-seller'],
     component: CreateSellerPage,
     exact: true,
     path: '/sellers/create',
@@ -258,6 +277,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'productsGrouper',
+    idsActiveInMenu: ['productCategory-list', 'view-productCategory', 'edit-productCategory', 'create-productCategory', 'product-list', 'view-product', 'edit-product', 'create-product', 'treinament-list', 'view-treinament', 'edit-treinament', 'create-treinament', 'comprovation-list', 'view-comprovation', 'edit-comprovation', 'create-comprovation'],
     component: () => <div />,
     exact: true,
     path: '',
@@ -270,6 +290,7 @@ export const allRoutes: Route[] = [
     subPages: [
       {
         id: 'productCategory-list',
+        idsActiveInMenu: ['productCategory-list', 'view-productCategory', 'edit-productCategory', 'create-productCategory'],
         component: ProductCategoriesPage,
         exact: true,
         path: '/product_categories',
@@ -277,13 +298,14 @@ export const allRoutes: Route[] = [
         roles: ['VIEWER'],
         title: 'Categorias de Produto',
         icon: <FcGlobe />,
-        pageImage: zonesImg,
+        pageImage: productCategoryImg,
         showOnMenu: true,
         subPages: [],
         isGrouper: false,
       },
       {
-        id: 'products',
+        id: 'product-list',
+        idsActiveInMenu: ['product-list', 'view-product', 'edit-product', 'create-product'],
         component: ProductsPage,
         exact: true,
         path: '/products',
@@ -297,7 +319,8 @@ export const allRoutes: Route[] = [
         isGrouper: false,
       },
       {
-        id: 'treinaments',
+        id: 'treinament',
+        idsActiveInMenu: ['treinament-list', 'view-treinament', 'edit-treinament', 'create-treinament'],
         component: ProductsPage,
         exact: true,
         path: '/treinaments',
@@ -311,7 +334,8 @@ export const allRoutes: Route[] = [
         isGrouper: false,
       },
       {
-        id: 'comprovations',
+        id: 'comprovation',
+        idsActiveInMenu: ['comprovation-list', 'view-comprovation', 'edit-comprovation', 'create-comprovation'],
         component: ProductsPage,
         exact: true,
         path: '/comprovations',
@@ -329,6 +353,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'edit-user-profile',
+    idsActiveInMenu: ['edit-user-profile'],
     component: EditUserProfilePage,
     exact: true,
     path: '/user_profile/:id/edit',
@@ -343,6 +368,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'view-user-profile',
+    idsActiveInMenu: ['view-user-profile'],
     component: ViewUserProfilePage,
     exact: true,
     path: '/user_profile/:id',
@@ -357,6 +383,7 @@ export const allRoutes: Route[] = [
   },
   {
     id: 'view-productCategory',
+    idsActiveInMenu: ['productCategory-list', 'view-productCategory', 'edit-productCategory', 'create-productCategory'],
     component: ViewProductCategoryPage,
     exact: true,
     path: '/product_categories/:id/view',
@@ -364,13 +391,14 @@ export const allRoutes: Route[] = [
     roles: ['VIEWER'],
     title: 'Visualizar Categoria de Produto',
     icon: <FcGlobe />,
-    pageImage: zonesImg,
+    pageImage: productCategoryImg,
     showOnMenu: false,
     subPages: [],
     isGrouper: false,
   },
   {
     id: 'edit-productCategory',
+    idsActiveInMenu: ['productCategory-list', 'view-productCategory', 'edit-productCategory', 'create-productCategory'],
     component: EditProductCategoryPage,
     exact: true,
     path: '/product_categories/:id/edit',
@@ -378,13 +406,14 @@ export const allRoutes: Route[] = [
     roles: ['VIEWER'],
     title: 'Editar Categoria de Produto',
     icon: <FcGlobe />,
-    pageImage: zonesImg,
+    pageImage: productCategoryImg,
     showOnMenu: false,
     subPages: [],
     isGrouper: false,
   },
   {
     id: 'create-productCategory',
+    idsActiveInMenu: ['productCategory-list', 'view-productCategory', 'edit-productCategory', 'create-productCategory'],
     component: CreateProductCategoryPage,
     exact: true,
     path: '/product_categories/create',
@@ -392,7 +421,52 @@ export const allRoutes: Route[] = [
     roles: ['VIEWER'],
     title: 'Criar Categoria de Produto',
     icon: <FcGlobe />,
-    pageImage: zonesImg,
+    pageImage: productCategoryImg,
+    showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
+  },
+  {
+    id: 'view-product',
+    idsActiveInMenu: ['product-list', 'view-product', 'edit-product', 'create-product'],
+    component: ViewProductPage,
+    exact: true,
+    path: '/products/:id/view',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Visualizar Produto',
+    icon: <FcGlobe />,
+    pageImage: productsImg,
+    showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
+  },
+  {
+    id: 'edit-product',
+    idsActiveInMenu: ['product-list', 'view-product', 'edit-product', 'create-product'],
+    component: EditProductPage,
+    exact: true,
+    path: '/products/:id/edit',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Editar Produto',
+    icon: <FcGlobe />,
+    pageImage: productsImg,
+    showOnMenu: false,
+    subPages: [],
+    isGrouper: false,
+  },
+  {
+    id: 'create-product',
+    idsActiveInMenu: ['product-list', 'view-product', 'edit-product', 'create-product'],
+    component: CreateProductPage,
+    exact: true,
+    path: '/products/create',
+    isDefaultForCurrentUser: (roles) => false,
+    roles: ['VIEWER'],
+    title: 'Criar Produto',
+    icon: <FcGlobe />,
+    pageImage: productsImg,
     showOnMenu: false,
     subPages: [],
     isGrouper: false,

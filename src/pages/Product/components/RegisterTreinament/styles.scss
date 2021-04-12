@@ -1,0 +1,74 @@
+.register-treinament {
+  .p-orderlist-item {
+    border-bottom: 1px solid #d2d2d2 !important;
+  }
+
+  .table-area {
+    position: relative;
+
+    .options {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .btn-add {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 9;
+    }
+  }
+
+  .question-header {
+    display: flex;
+    flex-direction: column;
+
+    .time {
+      font-style: italic;
+      font-size: .9em;
+      color: #888;
+    }
+  }
+
+  .p-orderlist-item:last-child {
+    border-bottom: 0px solid #666 !important;
+  }
+
+  .p-error {
+    margin-top: 5px;
+    margin-left: 80px;
+  }
+
+  .menu-btn-area {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-40%);
+  }
+
+  .btn-options {
+    z-index: 1;
+  }
+
+  .question-item {
+    .question-item-detail {
+      .pi {
+        font-weight: bold;
+      }
+
+      .pi-check {
+        color: lightgreen;
+      }
+
+      .pi-times {
+        color: red;
+      }
+    }
+  }
+
+  .question-text {
+    margin-left: 5px;
+    color: #666;
+    font-style: italic;
+  }
+}
