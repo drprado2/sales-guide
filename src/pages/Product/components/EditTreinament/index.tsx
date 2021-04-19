@@ -36,7 +36,7 @@ interface QuestionForm {
   options: Array<QuestionOption>;
 }
 
-const RegisterTreinament : React.FC = () => {
+const EditTreinament : React.FC = () => {
   const dispatch = useDispatch();
   const [menuRef, setMenuRef] = useState<any>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -245,4 +245,4 @@ const RegisterTreinament : React.FC = () => {
   );
 };
 
-export default RegisterTreinament;
+export default EditTreinament;

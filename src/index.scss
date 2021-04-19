@@ -60,3 +60,19 @@ body {
     padding-top: 0px !important;
   }
 }
+
+.__se__float-right {
+  float: right;
+}
+
+.__se__float-left {
+  float: left;
+}
+
+.se-video-container {
+  figure {
+    padding: 0px !important;
+    display: flow-root;
+  }
+}
+

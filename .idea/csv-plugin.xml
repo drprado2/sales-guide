@@ -38,6 +38,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\pages\Product\components\RegisterContent\index.tsx">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\pages\Product\components\RegisterTreinament\index.tsx">
           <value>
             <Attribute>

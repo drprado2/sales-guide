@@ -174,6 +174,8 @@ const ViewSellerPage = () => {
     });
   };
 
+  console.log('view data', viewData);
+
   return (
     <>
       <Toast ref={toast} />

@@ -47,9 +47,9 @@ export interface Seller {
   avatarImage: string,
   totalProvesSent: number,
   totalTreinamentDones : number,
-  lastAccess: string | undefined,
-  createdAt: string,
-  updatedAt: string
+  lastAccess: Date | undefined,
+  createdAt: Date,
+  updatedAt: Date
 }
 
 export interface SellerList {

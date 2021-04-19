@@ -47,6 +47,26 @@ export function validateTreinamentQuestions(questions: Array<TreinamentQuestion>
   return undefined;
 }
 
+export function validateContents(contents: Array<Content>) : string | undefined {
+  if (contents?.length === 0 ?? true) {
+    return '';
+  }
+  let response = '';
+  contents.forEach((q, i) => {
+    let localResp = '';
+    if (q.title?.length === 0 ?? true) {
+      localResp += ' um título, ';
+    }
+    if (localResp.length > 0) {
+      response += `, o conteúdo ${i + 1} deve ter${localResp.substr(0, localResp.length - 2)}`;
+    }
+  });
+  if (response.length > 0) {
+    return response.substring(2);
+  }
+  return undefined;
+}
+
 export interface Treinament {
   id: string;
   productId: string;
@@ -70,12 +90,22 @@ export interface UpdateTreinamentForm {
   [index: string]: FormValue<any>,
 }
 
+export interface Content {
+  id: string;
+  icon?: string;
+  title: string;
+  label?: string;
+  isCollapsable: boolean;
+  content?: string;
+}
+
 export interface CreateProductForm {
   name: FormValue<string>;
   description: FormValue<string>;
   mainImage: FormValue<string>;
   images: FormValue<Array<string>>;
   categoryId: FormValue<string>;
+  contents: FormValue<Array<Content>>;
   [index: string]: FormValue<any>,
 }
 
@@ -87,6 +117,7 @@ export interface UpdateProductForm {
   images: FormValue<Array<string>>;
   imagesBlob: FormValue<Array<File>>;
   categoryId: FormValue<string>;
+  contents: FormValue<Array<Content>>;
   [index: string]: FormValue<any>,
 }
 
@@ -103,7 +134,8 @@ export interface Product {
   totalTreinamentDones: number,
   totalProvesSent: number,
   createdAt: Date,
-  updatedAt: Date
+  updatedAt: Date,
+  contents: Array<Content>,
 }
 
 export interface ProductList {

@@ -1,5 +1,5 @@
 import React, {
-  ChangeEvent, FormEventHandler, useEffect, useRef, useState,
+  ChangeEvent, useEffect, useMemo, useRef, useState,
 } from 'react';
 import './styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { Dropdown } from 'primereact/dropdown';
 import { TabView, TabPanel } from 'primereact/tabview';
+import SunEditor from 'suneditor-react';
 import { allRoutes } from '../../../store/modules/auth/slice';
 import { setCurrentPage, pushBreadcrumb } from '../../../store/modules/template/slice';
 import {
@@ -28,7 +29,10 @@ import { isValid } from '../../../store/validations/validations';
 import { fileToBase64 } from '../../../utils/file-utils';
 import CreateProductCategoryModal from '../../ProductCategory/components/CreateModal';
 import { getOptions } from '../../../store/modules/productCategories/slice';
-import RegisterTreinament from '../components/RegisterTreinament';
+import EditTreinament from '../components/EditTreinament';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'suneditor/dist/css/suneditor.min.css';
+import EditContent from '../components/EditContent';
 
 const EditProductPage = () => {
   const toast = useRef<Toast>(null);
@@ -37,6 +41,7 @@ const EditProductPage = () => {
   const location = useLocation();
   const [isBlocking, setIsBlocking] = useState(false);
   const mainImageRef = useRef<HTMLInputElement>(null);
+  const editorRef = useRef<SunEditor>(null);
   const [createCategoryOpen, setCreateCategoryOpen] = useState(false);
 
   const currentRoute = allRoutes.find((r) => r.id === 'edit-product');
@@ -107,11 +112,34 @@ const EditProductPage = () => {
     }
   };
 
+  const onImageSelecteds = async (files : Array<File>) => {
+    const promises = files.map((f) => fileToBase64(f));
+    const base64Files = await Promise.all(promises);
+    dispatch(setUpdateFormField({ fieldName: 'images', value: base64Files }));
+  };
+
   const onFormSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
     setIsBlocking(false);
     dispatch(updateRequest(onSaveSuccess));
   };
+
+  const dropZoneImages = useMemo(() =>
+    (updateForm.id.value
+      ? (
+        <DropzoneArea
+          initialFiles={updateForm.images.value}
+          acceptedFiles={['image/*']}
+          dropzoneText="Arraste e solte as imagens ou clique!"
+          onChange={onImageSelecteds}
+          getFileAddedMessage={(fileName) => `Arquivo ${fileName} adicionado.`}
+          getFileRemovedMessage={(fileName) => `Arquivo ${fileName} removido.`}
+          getFileLimitExceedMessage={(limit) => `Não pode ter mais do que ${limit} arquivos.`}
+          previewGridProps={{ container: { spacing: 1, direction: 'row' }, item: { sm: 2 } }}
+          filesLimit={20}
+        />
+      ) : (<div />)),
+  [updateForm]);
 
   return (
     <>
@@ -213,28 +241,19 @@ const EditProductPage = () => {
                     <div className="p-col-12">
                       <label htmlFor="images">Fotos</label>
                       {
-                        (updateForm?.images?.value ?? []).length === 0 ? <div /> : (
-                          <DropzoneArea
-                            initialFiles={updateForm.images.value}
-                            acceptedFiles={['image/*']}
-                            dropzoneText="Arraste e solte as imagens ou clique!"
-                            onChange={(files) => console.log('Files:', files)}
-                            getFileAddedMessage={(fileName) => `Arquivo ${fileName} adicionado.`}
-                            getFileRemovedMessage={(fileName) => `Arquivo ${fileName} removido.`}
-                            getFileLimitExceedMessage={(limit) => `Não pode ter mais do que ${limit} arquivos.`}
-                            previewGridProps={{ container: { spacing: 1, direction: 'row' }, item: { sm: 2 } }}
-                            filesLimit={20}
-                          />
-                        )
+                        dropZoneImages
                       }
                     </div>
                   </div>
                 </TabPanel>
                 <TabPanel header="Conteúdo Aplicativo" leftIcon="pi pi-mobile">
-                  Aqui vao conteudos
+                  <EditContent
+                    productName={updateForm.name.value}
+                    images={updateForm.images.value.concat([updateForm.mainImage.value])}
+                  />
                 </TabPanel>
                 <TabPanel header="Treinamento" leftIcon="pi pi-book">
-                  <RegisterTreinament />
+                  <EditTreinament />
                 </TabPanel>
               </TabView>
               <div className="p-grid btn-area" style={{ marginTop: '20px', justifyContent: 'flex-end' }}>

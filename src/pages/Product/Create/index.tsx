@@ -1,5 +1,5 @@
 import React, {
-  ChangeEvent, FormEventHandler, useEffect, useRef, useState,
+  ChangeEvent, useEffect, useRef, useState,
 } from 'react';
 import './styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,7 @@ import { Helmet } from 'react-helmet';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
 import { DropzoneArea } from 'material-ui-dropzone';
+import { TabPanel, TabView } from 'primereact/tabview';
 import { allRoutes } from '../../../store/modules/auth/slice';
 import { setCurrentPage, pushBreadcrumb } from '../../../store/modules/template/slice';
 import {
@@ -27,6 +28,8 @@ import { isValid } from '../../../store/validations/validations';
 import { fileToBase64 } from '../../../utils/file-utils';
 import CreateProductCategoryModal from '../../ProductCategory/components/CreateModal';
 import { getOptions } from '../../../store/modules/productCategories/slice';
+import EditContent from '../components/EditContent';
+import EditTreinament from '../components/EditTreinament';
 
 const CreateProductPage = () => {
   const toast = useRef<Toast>(null);
@@ -41,7 +44,7 @@ const CreateProductPage = () => {
   const listRoute = allRoutes.find((r) => r.id === 'productsGrouper')?.subPages.find((r) => r.id === 'product-list');
 
   const {
-    loadingSaveForm, createForm,
+    loadingSaveForm, createForm, createTreinamentForm,
   } = useSelector((state: StoreState) => state.products);
   const categoryOptions = useSelector((state: StoreState) => state.productCategories.options);
   const loadingCategoryOptions = useSelector((state: StoreState) => state.productCategories.loadingOptions);
@@ -96,11 +99,17 @@ const CreateProductPage = () => {
     dispatch(createRequest(onSaveSuccess));
   };
 
+  const onImageSelecteds = async (files : Array<File>) => {
+    const promises = files.map((f) => fileToBase64(f));
+    const base64Files = await Promise.all(promises);
+    dispatch(setCreateFormField({ fieldName: 'images', value: base64Files }));
+  };
+
   return (
     <>
       <Helmet>
         <title>{currentRoute?.title ?? 'Criar Produto'}</title>
-        <meta name="description" content="Criar uma produto" />
+        <meta name="description" content="Editar uma produto" />
       </Helmet>
       <Zoom in>
         <div id="edit-product-page" className="p-grid p-align-center">
@@ -120,94 +129,109 @@ const CreateProductPage = () => {
             onCancel={() => setCreateCategoryOpen(false)}
           />
           <Card className="p-col-12 p-xl-10" style={{ position: 'relative' }}>
-            {loadingSaveForm && (
+            {(loadingSaveForm) && (
               <>
                 <Skeleton className="p-skeleton-loader" />
                 <ProgressSpinner className="loader-app" />
               </>
             )}
             <form onSubmit={onFormSubmit}>
-              <div className="p-grid">
-                <div className="p-col-6">
-                  <span className="p-float-label">
-                    <InputText
-                      id="name"
-                      aria-describedby="name-help"
-                      className={createForm.name?.errors?.length > 0 ? 'p-invalid' : ''}
-                      value={createForm.name.value}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        setIsBlocking(true);
-                        dispatch(setCreateFormField({ fieldName: e.target.id, value: e.target.value }));
-                      }}
-                    />
-                    <small id="name-help" className="p-error p-d-block">{createForm.name.errors.join(', ')}</small>
-                    <label htmlFor="name">Nome</label>
-                  </span>
-                </div>
-                <div className="p-col-6">
-                  <span className="p-float-label">
-                    <div className="p-inputgroup">
-                      <Dropdown
-                        disabled={loadingCategoryOptions}
-                        id="categoryId"
-                        optionLabel="label"
-                        optionValue="value"
-                        value={createForm?.categoryId?.value}
-                        options={categoryOptions}
-                        onChange={(e) => {
-                          setIsBlocking(true);
-                          dispatch(setCreateFormField({ fieldName: 'categoryId', value: e.value }));
-                        }}
-                      />
-                      <label style={{ marginLeft: 12 }} htmlFor="categoryId">Categoria</label>
-                      <Button type="button" icon="pi pi-plus" onClick={() => setCreateCategoryOpen(true)} />
+              <TabView>
+                <TabPanel header="Informações" leftIcon="pi pi-info-circle">
+                  <div className="p-grid">
+                    <div className="p-col-6">
+                      <span className="p-float-label">
+                        <InputText
+                          id="name"
+                          aria-describedby="name-help"
+                          className={createForm.name?.errors?.length > 0 ? 'p-invalid' : ''}
+                          value={createForm.name.value}
+                          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                            setIsBlocking(true);
+                            dispatch(setCreateFormField({ fieldName: e.target.id, value: e.target.value }));
+                          }}
+                        />
+                        <small id="name-help" className="p-error p-d-block">{createForm.name.errors.join(', ')}</small>
+                        <label htmlFor="name">Nome</label>
+                      </span>
                     </div>
-                    <small id="zoneId-help" className="p-error p-d-block">{createForm.categoryId.errors.join(', ')}</small>
-                  </span>
-                </div>
-                <div className="p-col-2">
-                  <div className="image-area p-shadow-3" style={{ backgroundImage: `url(${createForm.mainImage.value})` }}>
-                    <label className="image-label" htmlFor="mainImage">Foto Principal</label>
-                    <input onChange={onMainImageSelect} style={{ display: 'none' }} ref={mainImageRef} type="file" id="mainImage" name="mainImage" accept="image/png, image/jpeg" />
-                    <Button type="button" icon="pi pi-camera" className="p-button-rounded p-button-primary" htmlFor="mainImage" onClick={() => mainImageRef.current?.click()} />
+                    <div className="p-col-6">
+                      <span className="p-float-label">
+                        <div className="p-inputgroup">
+                          <Dropdown
+                            disabled={loadingCategoryOptions}
+                            id="categoryId"
+                            optionLabel="label"
+                            optionValue="value"
+                            value={createForm?.categoryId?.value}
+                            options={categoryOptions}
+                            onChange={(e) => {
+                              setIsBlocking(true);
+                              dispatch(setCreateFormField({ fieldName: 'categoryId', value: e.value }));
+                            }}
+                          />
+                          <label style={{ marginLeft: 12 }} htmlFor="categoryId">Categoria</label>
+                          <Button type="button" icon="pi pi-plus" onClick={() => setCreateCategoryOpen(true)} />
+                        </div>
+                        <small id="zoneId-help" className="p-error p-d-block">{createForm.categoryId.errors.join(', ')}</small>
+                      </span>
+                    </div>
+                    <div className="p-col-2">
+                      <div className="image-area p-shadow-3" style={{ backgroundImage: `url(${createForm.mainImage.value})` }}>
+                        <label className="image-label" htmlFor="mainImage">Foto Principal</label>
+                        <input onChange={onMainImageSelect} style={{ display: 'none' }} ref={mainImageRef} type="file" id="mainImage" name="mainImage" accept="image/png, image/jpeg" />
+                        <Button type="button" icon="pi pi-camera" className="p-button-rounded p-button-primary" htmlFor="mainImage" onClick={() => mainImageRef.current?.click()} />
+                      </div>
+                    </div>
+                    <div className="p-col-10">
+                      <span className="p-float-label">
+                        <InputTextarea
+                          id="description"
+                          aria-describedby="description-help"
+                          className={createForm.description?.errors?.length > 0 ? 'p-invalid' : ''}
+                          value={createForm.description.value}
+                          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                            setIsBlocking(true);
+                            dispatch(setCreateFormField({ fieldName: e.target.id, value: e.target.value }));
+                          }}
+                          rows={5}
+                          cols={30}
+                          autoResize
+                        />
+                        <small id="name-help" className="p-error p-d-block">{createForm.description.errors.join(', ')}</small>
+                        <label htmlFor="description">Descrição</label>
+                      </span>
+                    </div>
+                    <div className="p-col-12">
+                      <label htmlFor="images">Fotos</label>
+                      <DropzoneArea
+                        clearOnUnmount={false}
+                        initialFiles={createForm.images.value}
+                        acceptedFiles={['image/*']}
+                        dropzoneText="Arraste e solte as imagens ou clique!"
+                        onChange={onImageSelecteds}
+                        getFileAddedMessage={(fileName) => `Arquivo ${fileName} adicionado.`}
+                        getFileRemovedMessage={(fileName) => `Arquivo ${fileName} removido.`}
+                        getFileLimitExceedMessage={(limit) => `Não pode ter mais do que ${limit} arquivos.`}
+                        previewGridProps={{ container: { spacing: 1, direction: 'row' }, item: { sm: 2 } }}
+                        filesLimit={20}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="p-col-10">
-                  <span className="p-float-label">
-                    <InputTextarea
-                      id="description"
-                      aria-describedby="description-help"
-                      className={createForm.description?.errors?.length > 0 ? 'p-invalid' : ''}
-                      value={createForm.description.value}
-                      onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-                        setIsBlocking(true);
-                        dispatch(setCreateFormField({ fieldName: e.target.id, value: e.target.value }));
-                      }}
-                      rows={5}
-                      cols={30}
-                      autoResize
-                    />
-                    <small id="name-help" className="p-error p-d-block">{createForm.description.errors.join(', ')}</small>
-                    <label htmlFor="description">Descrição</label>
-                  </span>
-                </div>
-                <div className="p-col-12">
-                  <label htmlFor="images">Fotos</label>
-                  <DropzoneArea
-                    acceptedFiles={['image/*']}
-                    dropzoneText="Arraste e solte as imagens ou clique!"
-                    onChange={(files) => dispatch(setCreateFormField({ fieldName: 'images', value: files.map((f) => f.name) }))}
-                    getFileAddedMessage={(fileName) => `Arquivo ${fileName} adicionado.`}
-                    getFileRemovedMessage={(fileName) => `Arquivo ${fileName} removido.`}
-                    getFileLimitExceedMessage={(limit) => `Não pode ter mais do que ${limit} arquivos.`}
-                    previewGridProps={{ container: { spacing: 1, direction: 'row' }, item: { sm: 2 } }}
-                    filesLimit={20}
+                </TabPanel>
+                <TabPanel header="Conteúdo Aplicativo" leftIcon="pi pi-mobile">
+                  <EditContent
+                    productName={createForm.name.value}
+                    images={createForm.images.value.concat([createForm.mainImage.value])}
                   />
-                </div>
-              </div>
+                </TabPanel>
+                <TabPanel header="Treinamento" leftIcon="pi pi-book">
+                  <EditTreinament />
+                </TabPanel>
+              </TabView>
               <div className="p-grid btn-area" style={{ marginTop: '20px', justifyContent: 'flex-end' }}>
                 <Button type="button" label="Cancelar" className="p-button-text" onClick={goToList} />
-                <Button type="submit" label="Salvar" disabled={!isValid(createForm)} />
+                <Button type="submit" label="Salvar" disabled={!isValid(createForm) || !isValid(createTreinamentForm)} />
               </div>
             </form>
           </Card>

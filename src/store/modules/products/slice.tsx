@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   Product,
   ProductList, ProductOption,
-  ProductState, Treinament, validateTreinamentQuestions,
+  ProductState, Treinament, validateContents, validateTreinamentQuestions,
 } from './types';
 import {
   containsCapitalLetters,
@@ -28,6 +28,7 @@ const initialState: ProductState = {
     mainImage: { value: '', validations: [required], errors: [] },
     images: { value: [], validations: [notEmpty], errors: [] },
     categoryId: { value: '', validations: [required], errors: [] },
+    contents: { value: [], validations: [validateContents], errors: [] },
   },
   createTreinamentForm: {
     minPercentageToPass: { value: 70, validations: [greatherThanOrEqual(0)], errors: [] },
@@ -41,6 +42,7 @@ const initialState: ProductState = {
     images: { value: [], validations: [notEmpty], errors: [] },
     imagesBlob: { value: [], validations: [], errors: [] },
     categoryId: { value: '', validations: [required], errors: [] },
+    contents: { value: [], validations: [validateContents], errors: [] },
   },
   updateTreinamentForm: {
     id: { value: '', validations: [], errors: [] },
@@ -61,6 +63,7 @@ const initialState: ProductState = {
     totalTreinamentDones: 0,
     totalProvesSent: 0,
     updatedAt: new Date(),
+    contents: [],
   },
   paginated: {
     data: [],
@@ -126,6 +129,7 @@ const slice = createSlice({
       state.updateForm.mainImage.value = product.mainImage;
       state.updateForm.images.value = product.images;
       state.updateForm.categoryId.value = product.categoryId;
+      state.updateForm.contents.value = product.contents;
 
       state.updateTreinamentForm.id.value = treinament.id;
       state.updateTreinamentForm.minPercentageToPass.value = treinament.minPercentageToPass;
