@@ -21,7 +21,7 @@ export function* getList() {
     response = yield call(api.get, `${baseUrl}`, { params: { ...paginateFilter, ...filter } });
     const castResp = response.data as PaginatedResponse<TreinamentList>;
     castResp.data = castResp.data.map((d) => ({
-      ...d, executionDate: format(new Date(d.executionDate), 'dd/MM/yyyy'), minPercentageToPass: `${d.minPercentageToPass} %`, percentageReached: `${d.percentageReached} %`,
+      ...d, executionDate: format(new Date(d.executionDate), 'dd/MM/yyyy HH:mm:ss'), minPercentageToPass: `${d.minPercentageToPass} %`, percentageReached: `${d.percentageReached} %`,
     }));
     yield put(actions.onGetListSuccess(castResp));
   } catch (err) {
