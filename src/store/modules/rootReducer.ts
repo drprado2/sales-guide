@@ -9,6 +9,7 @@ import sellers from './sellers/slice';
 import employeeTypes from './employeeTypes/slice';
 import productCategories from './productCategories/slice';
 import products from './products/slice';
+import treinaments from './treinaments/slice';
 
 const rootReducer = combineReducers({
   auth,
@@ -21,5 +22,6 @@ const rootReducer = combineReducers({
   employeeTypes,
   productCategories,
   products,
+  treinaments,
 });
 export default rootReducer;

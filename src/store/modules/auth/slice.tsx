@@ -20,6 +20,7 @@ import productsImg from '../../../assets/images/products-page-img.svg';
 import zonesImg from '../../../assets/images/zones-page.svg';
 import employeeTypeImg from '../../../assets/images/employee-type-page.svg';
 import productCategoryImg from '../../../assets/images/product-category.svg';
+import treinamentsImg from '../../../assets/images/treinaments.svg';
 import ViewCompanyPage from '../../../pages/ViewCompany';
 import EditUserProfilePage from '../../../pages/EditUserProfile';
 import ViewUserProfilePage from '../../../pages/ViewUserProfile';
@@ -44,6 +45,7 @@ import ProductsPage from '../../../pages/Product/List';
 import ViewProductPage from '../../../pages/Product/View';
 import EditProductPage from '../../../pages/Product/Edit';
 import CreateProductPage from '../../../pages/Product/Create';
+import TreinamentsPage from '../../../pages/Treinaments/List';
 
 const authTokenKey = 'auth:token';
 const authRolesKey = 'auth:roles';
@@ -319,16 +321,16 @@ export const allRoutes: Route[] = [
         isGrouper: false,
       },
       {
-        id: 'treinament',
-        idsActiveInMenu: ['treinament-list', 'view-treinament', 'edit-treinament', 'create-treinament'],
-        component: ProductsPage,
+        id: 'treinament-list',
+        idsActiveInMenu: ['treinament-list'],
+        component: TreinamentsPage,
         exact: true,
         path: '/treinaments',
         isDefaultForCurrentUser: (roles) => false,
         roles: ['VIEWER'],
         title: 'Treinamentos',
         icon: <FaBook />,
-        pageImage: productsImg,
+        pageImage: treinamentsImg,
         showOnMenu: true,
         subPages: [],
         isGrouper: false,
