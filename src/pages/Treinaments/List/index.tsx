@@ -30,6 +30,7 @@ import classNames from 'classnames';
 import { Tag } from 'primereact/tag';
 import { Dropdown } from 'primereact/dropdown';
 import { Divider } from 'primereact/divider';
+import { format } from 'date-fns';
 import { allRoutes } from '../../../store/modules/auth/slice';
 import { resetBreadcrumbTo, setCurrentPage } from '../../../store/modules/template/slice';
 import {
@@ -38,6 +39,7 @@ import {
 import { StoreState } from '../../../store';
 import { TreinamentList } from '../../../store/modules/treinaments/types';
 import EmptyTable from '../../../components/EmptyTable';
+import TreinamentsDashboard, { TreinamnetDashboardData } from '../components/TreinamentsDashboard';
 
 const TreinamentsPage = () => {
   const dispatch = useDispatch();
@@ -45,6 +47,8 @@ const TreinamentsPage = () => {
     paginated, loadingGetList, paginateFilter, filter,
   } = useSelector((state: StoreState) => state.treinaments);
   const [globalFilter, setGlobalFilter] = useState<string | null>(null);
+  const [approvedsDashboardData, setApprovedsDashboardData] = useState<Array<TreinamnetDashboardData>>([]);
+  const [reprovedsDashboardData, setReprovedsDashboardData] = useState<Array<TreinamnetDashboardData>>([]);
   const [expandedRows, setExpandedRows] = useState<any[]>([]);
   const dataTableRef = useRef<DataTable>(null);
   const [menuRef, setMenuRef] = React.useState<any>(null);
@@ -56,6 +60,46 @@ const TreinamentsPage = () => {
   useEffect(() => {
     dispatch(getList());
   }, []);
+
+  useEffect(() => {
+    if (paginated?.data?.length === 0 ?? true) {
+      return;
+    }
+
+    const approvedsString = 'Aprovados';
+    const reprovedsString = 'Reprovados';
+    const approveds : Array<TreinamnetDashboardData> = [];
+    const reproveds : Array<TreinamnetDashboardData> = [];
+
+    const ordenedData = paginated.data
+      .slice()
+      .map((d) => ({ ...d, executionDate: d.executionDate.substring(0, 10) }));
+
+    for (const datum of ordenedData) {
+      const approvedIndex = approveds.findIndex((d) => d.x === datum.executionDate);
+      if (approvedIndex > -1) {
+        if (datum.passed) {
+          approveds[approvedIndex].y += 1;
+        }
+      } else {
+        approveds.push({ x: datum.executionDate, y: datum.passed ? 1 : 0, label: approvedsString });
+      }
+
+      const repprovedIndex = reproveds.findIndex((d) => d.x === datum.executionDate);
+      if (repprovedIndex > -1) {
+        if (!datum.passed) {
+          reproveds[repprovedIndex].y += 1;
+        }
+      } else {
+        reproveds.push({ x: datum.executionDate, y: datum.passed ? 0 : 1, label: reprovedsString });
+      }
+    }
+
+    console.log(approveds, reproveds);
+
+    setApprovedsDashboardData(approveds);
+    setReprovedsDashboardData(reproveds);
+  }, [paginated]);
 
   useEffect(() => {
     if (currentRoute) {
@@ -79,17 +123,22 @@ const TreinamentsPage = () => {
 
   const renderHeader = () => (
     <div className="table-header">
-      <Button
-        label="Exportar CSV"
-        className="p-button-success"
-        type="button"
-        icon="pi pi-file-excel"
-        onClick={() => dataTableRef?.current?.exportCSV()}
-      />
-      <span className="p-input-icon-left">
-        <i className="pi pi-search" />
-        <InputText type="search" onInput={(e: ChangeEvent<HTMLInputElement>) => setGlobalFilter(e.target.value)} placeholder="Pesquisar em tudo" />
-      </span>
+      <div className="dashboard-area">
+        <TreinamentsDashboard approveds={approvedsDashboardData} reproveds={reprovedsDashboardData} />
+      </div>
+      <div className="btns-area">
+        <Button
+          label="Exportar CSV"
+          className="p-button-success"
+          type="button"
+          icon="pi pi-file-excel"
+          onClick={() => dataTableRef?.current?.exportCSV()}
+        />
+        <span className="p-input-icon-left">
+          <i className="pi pi-search" />
+          <InputText type="search" onInput={(e: ChangeEvent<HTMLInputElement>) => setGlobalFilter(e.target.value)} placeholder="Pesquisar em tudo" />
+        </span>
+      </div>
     </div>
   );
 
@@ -215,7 +264,7 @@ const TreinamentsPage = () => {
             template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             totalRecords={paginated.total}
             alwaysShow
-            rowsPerPageOptions={[10, 25, 50]}
+            rowsPerPageOptions={[10, 25, 50, 100]}
             onPageChange={(e) => dispatch(setPaginateFilter({ current: e.first, total: e.rows }))}
           />
         </Card>

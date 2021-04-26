@@ -8,8 +8,9 @@ import employeeTypes from './employeeTypes/sagas';
 import productCategories from './productCategories/sagas';
 import products from './products/sagas';
 import treinaments from './treinaments/sagas';
+import comprovations from './comprovations/sagas';
 
 export default function* rootSaga() {
   // @ts-ignore
-  return yield all([auth, userProfile, company, zones, sellers, employeeTypes, productCategories, products, treinaments]);
+  return yield all([auth, userProfile, company, zones, sellers, employeeTypes, productCategories, products, treinaments, comprovations]);
 }

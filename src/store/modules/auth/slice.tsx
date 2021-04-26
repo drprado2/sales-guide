@@ -2,9 +2,7 @@ import React from 'react';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   FaBook,
-  FaBoxes,
   FaBoxOpen,
-  FaPhotoVideo,
   FcBriefcase,
   FcBusinessman, FcDepartment, FcGlobe, FcPieChart, FcSmartphoneTablet,
 } from 'react-icons/all';
@@ -21,6 +19,7 @@ import zonesImg from '../../../assets/images/zones-page.svg';
 import employeeTypeImg from '../../../assets/images/employee-type-page.svg';
 import productCategoryImg from '../../../assets/images/product-category.svg';
 import treinamentsImg from '../../../assets/images/treinaments.svg';
+import comprovationsImg from '../../../assets/images/comprovations.svg';
 import ViewCompanyPage from '../../../pages/ViewCompany';
 import EditUserProfilePage from '../../../pages/EditUserProfile';
 import ViewUserProfilePage from '../../../pages/ViewUserProfile';
@@ -46,6 +45,7 @@ import ViewProductPage from '../../../pages/Product/View';
 import EditProductPage from '../../../pages/Product/Edit';
 import CreateProductPage from '../../../pages/Product/Create';
 import TreinamentsPage from '../../../pages/Treinaments/List';
+import ComprovationsPage from '../../../pages/Comprovations/List';
 
 const authTokenKey = 'auth:token';
 const authRolesKey = 'auth:roles';
@@ -336,16 +336,16 @@ export const allRoutes: Route[] = [
         isGrouper: false,
       },
       {
-        id: 'comprovation',
-        idsActiveInMenu: ['comprovation-list', 'view-comprovation', 'edit-comprovation', 'create-comprovation'],
-        component: ProductsPage,
+        id: 'comprovation-list',
+        idsActiveInMenu: ['comprovation-list'],
+        component: ComprovationsPage,
         exact: true,
         path: '/comprovations',
         isDefaultForCurrentUser: (roles) => false,
         roles: ['VIEWER'],
         title: 'Comprovações',
-        icon: <FaPhotoVideo />,
-        pageImage: productsImg,
+        icon: <FaBook />,
+        pageImage: comprovationsImg,
         showOnMenu: true,
         subPages: [],
         isGrouper: false,

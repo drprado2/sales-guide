@@ -1,4 +1,4 @@
-#treinaments-page {
+#comprovations-page {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -79,23 +79,9 @@
 
   .table-header {
     display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    .dashboard-area {
-      display: flex;
-      height: 400px;
-      margin-bottom: 16px;
-    }
-
-    .btns-area {
-      display: flex;
-      align-self: flex-end;
-
       .p-button {
         margin-right: 8px;
       }
-    }
   }
 
   table {
@@ -106,5 +92,39 @@
         }
       }
     }
+  }
+
+  .item-header {
+    i {
+      cursor: pointer;
+
+      &:hover {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .item-title {
+    margin-left: 10px;
+
+    .time {
+      font-style: italic;
+    }
+
+    .title {
+      font-weight: bold;
+    }
+  }
+
+  .img-alt {
+    position: absolute;
+    bottom: 22px;
+    left: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-top-right-radius: 12px;
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px 5px 2px;
+    border-bottom-right-radius: 12px;
   }
 }
