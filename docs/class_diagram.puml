@@ -188,6 +188,7 @@ OptionSelected "1" *-- "0..*" Company
 TreinamentDone "1" *-- "0..*" Company
 Seller "1" *-- "0..*" Zone
 Seller "1" *-- "0..*" EmployeeType
+EmployeeType "1" *-- "0..*" Company
 Product "1" *-- "0..*" ProductCategory
 ProductContentBlock "1" *-- "0..*" Product
 Treinament "1" *-- "0..*" Product
