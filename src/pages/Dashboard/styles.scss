@@ -3,6 +3,22 @@
   flex-direction: column;
   width: 100%;
 
+  .pulse-btn {
+    position: absolute;
+    top: 210px;
+    right: 23px;
+    z-index: 999;
+  }
+
+  .dashboard-filter-area {
+    display: flex;
+    flex-direction: column;
+
+    > span {
+      margin-bottom: 10px;
+    }
+  }
+
   .cards {
     display: flex;
     margin-bottom: 16px;

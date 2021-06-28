@@ -72,7 +72,7 @@ const ProductivityByZoneDashboard : React.FC<WithParentSizeProps & WithParentSiz
   parentWidth = 10,
   parentHeight = 10,
 }) => (
-  <div id="sellers-active">
+  <div id="productivity-by-zone">
     <h2>Produtividade por Região</h2>
     <XYChart theme={darkTheme} height={parentHeight} xScale={{ type: 'band' }} yScale={{ type: 'linear' }}>
       <CustomChartBackground />

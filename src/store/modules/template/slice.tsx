@@ -1,6 +1,7 @@
 import { FaBeer } from 'react-icons/fa';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import React from 'react';
+import addDays from 'date-fns/addDays';
 import { BreadcrumbRoute, TemplateState } from './types';
 
 const initialState: TemplateState = {
@@ -10,13 +11,16 @@ const initialState: TemplateState = {
   drawerOpen: true,
   pageImage: undefined,
   breadcrumbRoutes: [],
+  dashboardsMinDate: addDays(new Date(), -15),
+  dashboardsMaxDate: new Date(),
+  dashboardsDatesFilter: [addDays(new Date(), -7), new Date()],
 };
 
 const templateSlice = createSlice({
   name: 'template',
   initialState,
   reducers: {
-    setCurrentPage(state, action: PayloadAction<Omit<TemplateState, 'drawerOpen' | 'breadcrumbRoutes'>>) {
+    setCurrentPage(state, action: PayloadAction<Omit<TemplateState, 'drawerOpen' | 'breadcrumbRoutes'| 'dashboardsMinDate' | 'dashboardsMaxDate' | 'dashboardsDatesFilter'>>) {
       state.icon = action.payload.icon;
       state.title = action.payload.title;
       state.routeId = action.payload.routeId;
@@ -44,6 +48,10 @@ const templateSlice = createSlice({
     toggleDrawer(state, action: PayloadAction) {
       state.drawerOpen = !state.drawerOpen;
     },
+    setDashboardFilter(state, action: PayloadAction<Date[]>) {
+      console.log('veio trocar filtro', action.payload);
+      state.dashboardsDatesFilter = action.payload;
+    },
   },
 });
 
@@ -52,6 +60,7 @@ export const {
   toggleDrawer,
   pushBreadcrumb,
   resetBreadcrumbTo,
+  setDashboardFilter,
 } = templateSlice.actions;
 
 export default templateSlice.reducer;

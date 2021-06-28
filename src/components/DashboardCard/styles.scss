@@ -23,6 +23,18 @@
         font-weight: bold;
         font-size: 2em;
       }
+
+      > .increase-up {
+        color: #00e676;
+        font-weight: bold;
+        font-style: italic;
+      }
+
+      > .increase-down {
+        color: #f44336;
+        font-weight: bold;
+        font-style: italic;
+      }
     }
 
     > .card-img {

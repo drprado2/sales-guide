@@ -4,6 +4,9 @@ export interface TemplateState {
   icon: JSX.Element;
   pageImage: string | undefined;
   drawerOpen: boolean;
+  dashboardsMinDate: Date;
+  dashboardsMaxDate: Date;
+  dashboardsDatesFilter: Date[];
   breadcrumbRoutes: Array<BreadcrumbRoute>;
 }
 

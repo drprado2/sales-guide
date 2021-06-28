@@ -7,10 +7,6 @@ import { format } from 'date-fns';
 import Tooltip from '@material-ui/core/Tooltip';
 import ImageGallery from 'react-image-gallery';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// @ts-ignore
-const { google } = window;
-
 export interface Seller {
   name: string;
   image: string;
@@ -31,18 +27,19 @@ interface Props {
 }
 
 function calculateCenterPoint(locs: Array<Location>): any {
-  if (!locs || !google) {
+  // @ts-ignore
+  if (!locs || !window.google) {
     return { lat: 0, lng: 0 };
   }
-  const bound = new google.maps.LatLngBounds();
+  // @ts-ignore
+  const bound = new window.google.maps.LatLngBounds();
 
   for (let i = 0; i < locs.length; i += 1) {
-    bound.extend(new google.maps.LatLng(locs[i].latitude, locs[i].longitude));
+    // @ts-ignore
+    bound.extend(new window.google.maps.LatLng(locs[i].latitude, locs[i].longitude));
   }
   const c = bound.getCenter();
-  console.log('new center', c);
   const newCenter = { lat: c.lat(), lng: c.lng() };
-  console.log('new center', newCenter);
   return newCenter;
 }
 
@@ -57,6 +54,7 @@ const ProductProvesSentView : React.FC<Props> = ({ locations }) => {
     center: calculateCenterPoint(locations),
     zoom: 13,
   });
+  const [map, setMap] = useState<any>(null);
 
   useEffect(() => {
     setOptions({
@@ -65,22 +63,27 @@ const ProductProvesSentView : React.FC<Props> = ({ locations }) => {
     });
   }, []);
 
-  const onMapReady = (map: any) => {
+  const onMapReady = (event: any) => {
+    setMap(event.map);
+    event.map.setCenter(calculateCenterPoint(locations));
     setIsMapReady(true);
   };
 
   useEffect(() => {
-    if (!isMapReady || !google) {
+    // @ts-ignore
+    if (!isMapReady || !window.google) {
       return;
     }
     setLocs(locations.sort((a, b) => b.date.getTime() - a.date.getTime()));
   }, [locations, isMapReady]);
 
   useEffect(() => {
-    if (!isMapReady || !google) {
+    // @ts-ignore
+    if (!isMapReady || !window.google) {
       return;
     }
-    setOverlays(locs.filter((l, i) => !hiddenOnMap.some((h) => h === i)).map((l, i) => new google.maps.Marker(
+    // @ts-ignore
+    setOverlays(locs.filter((l, i) => !hiddenOnMap.some((h) => h === i)).map((l, i) => new window.google.maps.Marker(
       {
         draggable: false,
         position: { lat: l.latitude, lng: l.longitude },
