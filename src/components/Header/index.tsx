@@ -9,6 +9,7 @@ import { Badge } from 'primereact/badge';
 import { fade, InputBase, makeStyles } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
 // @ts-ignore
 import Burger from 'react-css-burger';
 import { Link, useHistory } from 'react-router-dom';
@@ -93,6 +94,7 @@ const Header: React.FC = () => {
   const { avatarImage, name, id } = useSelector((state: StoreState) => state.auth.user);
   const dispatch = useDispatch();
   const history = useHistory();
+  const { logout } = useAuth0();
 
   const op = useRef(null);
   const notificationRef = useRef(null);
@@ -165,7 +167,7 @@ const Header: React.FC = () => {
         >
           Perfil
         </MenuItem>
-        <MenuItem onClick={() => dispatch(signOutRequest())}>Sair</MenuItem>
+        <MenuItem onClick={() => logout({ returnTo: window.location.origin })}>Sair</MenuItem>
       </Menu>
     </div>
   );

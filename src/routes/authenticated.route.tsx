@@ -4,6 +4,7 @@ import {
   Route, Switch, useHistory,
 } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
 import { StoreState } from '../store';
 import { authorizedRoutes } from '../store/modules/auth/slice';
 
@@ -12,18 +13,16 @@ export interface HomeParams {
 }
 
 export default function AuthenticatedRoutes() {
-  const { roles } = useSelector((state: StoreState) => state.auth);
-
   return (
     <Switch>
-      {authorizedRoutes(roles).filter((r) => !r.isGrouper).map((route) => (
+      {authorizedRoutes(['VIEWER', 'SELLER']).filter((r) => !r.isGrouper).map((route) => (
         <Route
           key={route.path}
           path={route.path}
           exact={route.exact}
           component={route.component}
         />
-      )).concat(authorizedRoutes(roles).filter((r) => r.isGrouper).map((r) => r.subPages).reduce((rA, rB) => rA.concat(rB), [])
+      )).concat(authorizedRoutes(['VIEWER', 'SELLER']).filter((r) => r.isGrouper).map((r) => r.subPages).reduce((rA, rB) => rA.concat(rB), [])
         .map((route) => (
           <Route
             key={route.path}
@@ -33,7 +32,7 @@ export default function AuthenticatedRoutes() {
           />
         )))
       }
-      <Route path="*" render={() => <Redirect to={authorizedRoutes(roles)[0].path} />} />
+      <Route path="*" render={() => <Redirect to={authorizedRoutes(['VIEWER', 'SELLER'])[0].path} />} />
     </Switch>
   );
 }

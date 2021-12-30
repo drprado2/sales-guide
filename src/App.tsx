@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Auth0Provider } from '@auth0/auth0-react';
 import { addLocale } from 'primereact/api';
 import Routes from './routes';
 
@@ -29,7 +30,21 @@ console.log(
 function App() {
   return (
     <Router>
-      <Routes />
+      <Auth0Provider
+        domain="drprado2.us.auth0.com"
+        clientId="AQE4Tx1YykbmazybqRi0rkd71FTJo0vZ"
+        redirectUri={window.location.origin}
+        cacheLocation="localstorage"
+        audience="http://localhost:8000"
+        scope="read:current_user"
+        useRefreshTokens
+        onRedirectCallback={(appState) => {
+          console.log('veja o app state', appState);
+        }
+        }
+      >
+        <Routes />
+      </Auth0Provider>
     </Router>
   );
 }

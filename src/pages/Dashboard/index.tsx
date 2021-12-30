@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet';
 import Fab from '@material-ui/core/Fab';
 import { FilterList } from '@material-ui/icons';
 import { OverlayPanel } from 'primereact/overlaypanel';
+import { useAuth0 } from '@auth0/auth0-react';
 import { allRoutes, signOutRequest } from '../../store/modules/auth/slice';
 import { resetBreadcrumbTo, setCurrentPage, setDashboardFilter } from '../../store/modules/template/slice';
 import { StoreState } from '../../store';
@@ -19,6 +20,18 @@ import ProductsPieDashboard from '../../components/ProductsStackBarDashboard';
 import ActivitiesDashboard from '../../components/ActivitiesDashboard';
 
 const DashboardPage = () => {
+  const { getAccessTokenSilently } = useAuth0();
+  useEffect(() => {
+    async function getAccessToken() {
+      const accessToken = await getAccessTokenSilently({
+        audience: 'http://localhost:8000',
+      });
+      console.log('token', accessToken);
+    }
+
+    getAccessToken();
+  }, [getAccessTokenSilently]);
+
   const dispatch = useDispatch();
   const filtersRef = useRef(null);
   const {
